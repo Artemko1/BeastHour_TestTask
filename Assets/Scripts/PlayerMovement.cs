@@ -1,7 +1,8 @@
+using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerAnimator))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private float _movementSpeed = 4.0f;
     private Camera _camera;
@@ -18,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!isOwned)
+        {
+            return;
+        }
+
         Vector3 movementVector = Vector3.zero;
 
         var moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
@@ -35,15 +41,5 @@ public class PlayerMovement : MonoBehaviour
 
         _characterController.Move(_movementSpeed * Time.deltaTime * movementVector);
         _playerAnimator.PlayMove(_characterController.velocity.magnitude);
-    }
-
-    private void Warp(Vector3 to)
-    {
-        _characterController.enabled = false;
-
-        to.y += _characterController.height * 2f;
-        transform.position = to;
-
-        _characterController.enabled = true;
     }
 }
