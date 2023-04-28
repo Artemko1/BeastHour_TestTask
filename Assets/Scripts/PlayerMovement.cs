@@ -26,7 +26,7 @@ public class PlayerMovement : NetworkBehaviour
 
         Vector3 movementVector = Vector3.zero;
 
-        var moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 moveInput = InputService.MovementAxis;
 
         if (moveInput.sqrMagnitude > Mathf.Epsilon)
         {
@@ -37,7 +37,7 @@ public class PlayerMovement : NetworkBehaviour
             transform.forward = movementVector;
         }
 
-        movementVector += Physics.gravity;
+        // movementVector += Physics.gravity;
 
         _characterController.Move(_movementSpeed * Time.deltaTime * movementVector);
         _playerAnimator.PlayMove(_characterController.velocity.magnitude);

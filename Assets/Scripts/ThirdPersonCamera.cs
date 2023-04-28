@@ -30,7 +30,8 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void ReadInput()
     {
-        _horizontalDelta = Input.GetAxis("Mouse X") * _turnSpeed;
-        _verticalDelta = Input.GetAxis("Mouse Y") * _turnSpeed;
+        Vector2 mouseInput = InputService.MouseAxis;
+        _horizontalDelta = mouseInput.x * _turnSpeed;
+        _verticalDelta = mouseInput.y * _turnSpeed;
     }
 }
