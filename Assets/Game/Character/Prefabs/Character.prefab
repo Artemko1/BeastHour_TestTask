@@ -1184,9 +1184,6 @@ MonoBehaviour:
   _duration: 0.2
   _characterController: {fileID: 9005795433432916629}
   _playerBase: {fileID: 274328785009287281}
-  _blinkHitLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
   _dashCollideObserver: {fileID: 5539968139185005401}
 --- !u!114 &4289418562699724005
 MonoBehaviour:
@@ -1234,6 +1231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c542a8d9453c4c41ada1427928cdfdc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _characterRenderer: {fileID: 5597113867290821413}
   _alteredMaterial: {fileID: 2100000, guid: c247c9294fb0cd74ab38abe1c6e3d517, type: 2}
   _stateChangeDuration: 3

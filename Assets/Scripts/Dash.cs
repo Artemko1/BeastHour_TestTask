@@ -8,12 +8,9 @@ public class Dash : NetworkBehaviour
     [SerializeField] private float _duration = 0.2f;
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private PlayerBase _playerBase;
-    [SerializeField] private LayerMask _blinkHitLayerMask;
-
     [SerializeField] private TriggerObserver _dashCollideObserver;
 
-
-    private bool _isBlinking;
+    private bool _isDashing;
 
     private void Update()
     {
@@ -31,15 +28,11 @@ public class Dash : NetworkBehaviour
 
     private void TriggerEnter(Collider other)
     {
-        // Debug.Log("Enter!", this);
+        if (!_isDashing) return;
+        if (!other.TryGetComponent(out PlayerBase playerBase)) return;
+        if (_playerBase.Equals(playerBase)) return;
 
-        // if(!_isBlinking) return;
-        if (_isBlinking && other.TryGetComponent(out PlayerBase playerBase))
-        {
-            if (_playerBase.Equals(playerBase)) return;
-
-            _playerBase.Hit(playerBase);
-        }
+        _playerBase.Hit(playerBase);
     }
 
     private void StartBlinkCoroutine() =>
@@ -47,8 +40,8 @@ public class Dash : NetworkBehaviour
 
     private IEnumerator DoBlink()
     {
-        _isBlinking = true;
-        Debug.Log("Set blinking to true!", this);
+        _isDashing = true;
+        // Debug.Log("Set blinking to true!", this);
         Transform tr = transform;
 
         Vector3 direction = tr.forward;
@@ -59,24 +52,6 @@ public class Dash : NetworkBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        _isBlinking = false;
-
-        //
-        // Vector3 startBlinkPos = tr.position + Vector3.up;
-        // _characterController.Move(direction * _distance);
-        //
-        // Vector3 endBlinkPos = tr.position + Vector3.up;
-        //
-        // if (!Physics.Linecast(startBlinkPos, endBlinkPos, out RaycastHit hit, _blinkHitLayerMask)) return;
-        //
-        // Debug.Log("Intersected player!");
-        //     
-        // if (hit.transform.TryGetComponent(out PlayerBase playerBase))
-        // {
-        //     _playerBase.Hit(playerBase);
-        // }
-
-        // Debug.DrawLine(startBlinkPos, endBlinkPos, Color.red, 1.5f);
-        // Debug.Log($"Pos diff: {endBlinkPos - startBlinkPos}");
+        _isDashing = false;
     }
 }

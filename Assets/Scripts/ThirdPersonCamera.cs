@@ -20,6 +20,8 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (_target == null) return;
+
         _xRotation += _verticalDelta;
         _xRotation = Mathf.Clamp(_xRotation, MinTurnAngle, MaxTurnAngle);
 
@@ -27,6 +29,8 @@ public class ThirdPersonCamera : MonoBehaviour
         cameraTransform.eulerAngles = new Vector3(-_xRotation, cameraTransform.eulerAngles.y + _horizontalDelta, 0);
         cameraTransform.position = _target.transform.position - cameraTransform.forward * _targetDistance + _offset;
     }
+
+    public void SetTarget(Transform target) => _target = target.gameObject;
 
     private void ReadInput()
     {

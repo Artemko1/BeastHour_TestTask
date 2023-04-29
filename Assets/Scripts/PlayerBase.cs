@@ -11,38 +11,53 @@ public class PlayerBase : NetworkBehaviour
 
     private bool _isInAlteredState;
     private Material[] _originMaterials;
+    private bool CanBeHit => !_isInAlteredState;
 
     private void Awake() =>
         _originMaterials = _characterRenderer.sharedMaterials;
 
     public void Hit(PlayerBase target)
     {
-        if (isServer)
+        if (isClientOnly)
         {
-            RPCHitTarget(target);
+            HitTarget(target); // для локального отображения на клиенте без задержки
         }
-        else
-        {
-            HitTarget(target); // для локального отображения без задержки
-            CmdHitTarget(target);
-        }
+
+        CmdHitTarget(target);
     }
 
     [Command]
-    private void CmdHitTarget(PlayerBase target) =>
+    private void CmdHitTarget(PlayerBase target)
+    {
+        Debug.Log("CmdHitTarget");
+
+        if (!target.CanBeHit) // server validation
+        {
+            return;
+        }
+
+        if (isServerOnly)
+        {
+            HitTarget(target); // Чтобы на сервере тоже поменялось
+        }
+
         RPCHitTarget(target);
+    }
 
     [ClientRpc]
-    private void RPCHitTarget(PlayerBase target) // rpc вызывается и на сервере тоже
-        => HitTarget(target);
+    private void RPCHitTarget(PlayerBase target) // rpc вызывается и на хосте тоже, но не на чисто сервере
+    {
+        Debug.Log("RPCHitTarget");
+        HitTarget(target);
+    }
 
     private void HitTarget(PlayerBase target) =>
         target.TryTakeHit();
 
-    //todo добавить валидацию на сервере, что если цель неуязвима, то не надо эту функцию рассылать
     private void TryTakeHit()
     {
-        if (_isInAlteredState) return;
+        Debug.Log("TryTakeHit call on target", this);
+        if (!CanBeHit) return; // client validation
 
         ToAlteredState();
 
