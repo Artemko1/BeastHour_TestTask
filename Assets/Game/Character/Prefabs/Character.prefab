@@ -1237,6 +1237,7 @@ MonoBehaviour:
   _characterRenderer: {fileID: 5597113867290821413}
   _alteredMaterial: {fileID: 2100000, guid: c247c9294fb0cd74ab38abe1c6e3d517, type: 2}
   _stateChangeDuration: 3
+  _characterController: {fileID: 9005795433432916629}
 --- !u!1 &4523139366846529165
 GameObject:
   m_ObjectHideFlags: 0

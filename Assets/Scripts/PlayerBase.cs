@@ -1,20 +1,46 @@
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(Renderer), typeof(CharacterController))]
 public class PlayerBase : NetworkBehaviour
 {
     [SerializeField] private Renderer _characterRenderer;
     [SerializeField] private Material _alteredMaterial;
     [SerializeField] private float _stateChangeDuration;
 
+    [SerializeField] private CharacterController _characterController;
+
     private bool _isInAlteredState;
     private Material[] _originMaterials;
     private bool CanBeHit => !_isInAlteredState;
 
+    [field: SyncVar(hook = nameof(HandleScoreChanged))]
+    public int Score { get; [Server] private set; }
+
     private void Awake() =>
         _originMaterials = _characterRenderer.sharedMaterials;
+
+    private void HandleScoreChanged(int oldValue, int newValue)
+    {
+        Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
+        OnScoreChanged2?.Invoke();
+    }
+
+    public event Action OnScoreChanged2;
+
+    [ClientRpc]
+    public void SetPosition(Vector3 position)
+    {
+        _characterController.enabled = false;
+        transform.position = position;
+        _characterController.enabled = true;
+    }
+
+    [Server]
+    public void ResetScore() =>
+        Score = 0;
 
     public void Hit(PlayerBase target)
     {
@@ -29,7 +55,7 @@ public class PlayerBase : NetworkBehaviour
     [Command]
     private void CmdHitTarget(PlayerBase target)
     {
-        Debug.Log("CmdHitTarget");
+        // Debug.Log("CmdHitTarget");
 
         if (!target.CanBeHit) // server validation
         {
@@ -41,13 +67,15 @@ public class PlayerBase : NetworkBehaviour
             HitTarget(target); // Чтобы на сервере тоже поменялось
         }
 
-        RPCHitTarget(target);
+        Score++;
+
+        RpcHitTarget(target);
     }
 
     [ClientRpc]
-    private void RPCHitTarget(PlayerBase target) // rpc вызывается и на хосте тоже, но не на чисто сервере
+    private void RpcHitTarget(PlayerBase target) // rpc вызывается и на хосте тоже, но не на чисто сервере
     {
-        Debug.Log("RPCHitTarget");
+        // Debug.Log("RpcHitTarget");
         HitTarget(target);
     }
 
@@ -56,7 +84,7 @@ public class PlayerBase : NetworkBehaviour
 
     private void TryTakeHit()
     {
-        Debug.Log("TryTakeHit call on target", this);
+        // Debug.Log("TryTakeHit call on target", this);
         if (!CanBeHit) return; // client validation
 
         ToAlteredState();
