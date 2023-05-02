@@ -7,37 +7,21 @@ namespace UI
     {
         [SerializeField] private ScoreLine _linePrefab;
         [SerializeField] private GameMode _gameMode;
-        [SerializeField] private NetManager _networkManager;
 
         private void Start()
         {
             Refresh();
             _gameMode.CurrentPlayersList.Callback += Refresh;
-        }
-
-        private void OnEnable()
-        {
+            _gameMode.ClientPlayerScoreChanged += Refresh;
             // _gameMode.GameRestart += Refresh;
-            // _gameMode.ClientPlayerScoreChanged += Refresh;
-
-            // _networkManager.ServerPlayerConnected += Refresh;
-            // _networkManager.ServerPlayerDisconnected += Refresh;
-            // _networkManager.ClientConnected += Refresh;
         }
 
-        private void OnDisable()
+        private void Refresh(SyncList<PlayerInfo>.Operation op, int itemindex, PlayerInfo olditem,
+            PlayerInfo newitem)
         {
-            // _gameMode.GameRestart -= Refresh;
-            // _gameMode.ClientPlayerScoreChanged -= Refresh;
-            // _networkManager.ServerPlayerConnected -= Refresh;
-            // _networkManager.ServerPlayerDisconnected -= Refresh;
-        }
-
-        private void Refresh(SyncList<PlayerBase>.Operation op, int itemindex, PlayerBase olditem,
-            PlayerBase newitem) =>
+            Debug.Log($"Refresh on ListSync callback. Op {op}, index {itemindex}, old {olditem}, new {newitem}");
             Refresh();
-
-        private void Refresh(PlayerBase player) => Refresh();
+        }
 
         private void Refresh()
         {
@@ -46,18 +30,18 @@ namespace UI
                 Destroy(child.gameObject);
             }
 
-            Debug.Log($"List length is {_gameMode.CurrentPlayersList.Count}");
+            Debug.Log($"Refresh! List length is {_gameMode.CurrentPlayersList.Count}");
             for (var i = 0; i < _gameMode.CurrentPlayersList.Count; i++)
             {
-                PlayerBase playerBase = _gameMode.CurrentPlayersList[i];
-                if (playerBase == null)
+                PlayerInfo player = _gameMode.CurrentPlayersList[i];
+                if (player == null)
                 {
                     Debug.LogWarning("Null object in syncList");
                     continue;
                 }
 
                 ScoreLine line = Instantiate(_linePrefab, transform);
-                line.Init(playerBase.Name, playerBase.Score.ToString());
+                line.Init(player.Name, player.Score.ToString());
             }
         }
     }

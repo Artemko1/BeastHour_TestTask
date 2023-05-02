@@ -1415,7 +1415,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _restartDuration: 3
-  _scoreToWin: 1
+  _scoreToWin: 3
   _networkManager: {fileID: 224340740}
 --- !u!114 &1395001366
 MonoBehaviour:
@@ -1921,6 +1921,11 @@ PrefabInstance:
     - target: {fileID: 1319133083731495953, guid: 53da98963b0e87b43b49caaaaced6005,
         type: 3}
       propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319133083731495953, guid: 53da98963b0e87b43b49caaaaced6005,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1319133083805869584, guid: 53da98963b0e87b43b49caaaaced6005,

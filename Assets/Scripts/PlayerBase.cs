@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -16,19 +15,19 @@ public class PlayerBase : NetworkBehaviour
     private Material[] _originMaterials;
     private bool CanBeHit => !_isInAlteredState;
 
-    [field: SyncVar(hook = nameof(HandleScoreChanged))]
-    public int Score { get; [Server] private set; }
+    // [field: SyncVar(hook = nameof(HandleScoreChanged))]
+    // public int Score { get; [Server] private set; }
 
     [field: SyncVar] public string Name { get; [Server] set; }
 
     private void Awake() =>
         _originMaterials = _characterRenderer.sharedMaterials;
 
-    private void HandleScoreChanged(int oldValue, int newValue) =>
-        // Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
-        OnScoreChanged?.Invoke(this);
+    // private void HandleScoreChanged(int oldValue, int newValue) =>
+    //     // Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
+    //     OnScoreChanged?.Invoke(this);
 
-    public event Action<PlayerBase> OnScoreChanged;
+    // public event Action<PlayerBase> OnScoreChanged;
 
     [ClientRpc]
     public void SetPosition(Vector3 position)
@@ -38,9 +37,9 @@ public class PlayerBase : NetworkBehaviour
         _characterController.enabled = true;
     }
 
-    [Server]
-    public void ResetScore() =>
-        Score = 0;
+    // [Server]
+    // public void ResetScore() =>
+    //     Score = 0;
 
     public void Hit(PlayerBase target)
     {
@@ -67,7 +66,8 @@ public class PlayerBase : NetworkBehaviour
             HitTarget(target); // Чтобы на сервере тоже поменялось
         }
 
-        Score++;
+        // Score++;
+        GameMode.Instance.OnPlayerMadeHit(netId, this);
 
         RpcHitTarget(target);
     }

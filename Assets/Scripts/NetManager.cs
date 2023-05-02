@@ -7,12 +7,8 @@ using Random = UnityEngine.Random;
 public class NetManager : NetworkManager
 {
     private List<Transform> _unusedStartPositions = new List<Transform>();
-
-    // public readonly SyncList<PlayerBase> CurrentPlayers = new SyncList<PlayerBase>();
-    // public event Action ClientConnected;
-    // public event Action ClientDisconnected;
-    public event Action<PlayerBase> ServerPlayerConnected;
-    public event Action<PlayerBase> ServerPlayerDisconnected;
+    public event Action<NetworkIdentity> ServerPlayerConnected;
+    public event Action<NetworkIdentity> ServerPlayerDisconnected;
 
     public override Transform GetStartPosition()
     {
@@ -38,23 +34,12 @@ public class NetManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient someConnection)
     {
         base.OnServerAddPlayer(someConnection);
-        var player = someConnection.identity.GetComponent<PlayerBase>();
-        // CurrentPlayers.Add(player);
-        // player.name = "Player " + CurrentPlayers.Count;
-        ServerPlayerConnected?.Invoke(player);
+        ServerPlayerConnected?.Invoke(someConnection.identity);
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient disconnectedClient)
     {
-        var player = disconnectedClient.identity.GetComponent<PlayerBase>();
-        // CurrentPlayers.Remove(player);
-        ServerPlayerDisconnected?.Invoke(player);
+        ServerPlayerDisconnected?.Invoke(disconnectedClient.identity);
         base.OnServerDisconnect(disconnectedClient);
     }
-
-    // public override void OnClientConnect()
-    // {
-    //     base.OnClientConnect();
-    //     ClientConnected?.Invoke();
-    // }
 }
