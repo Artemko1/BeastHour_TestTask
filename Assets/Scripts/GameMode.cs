@@ -2,34 +2,35 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Room;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class GameMode : NetworkBehaviour
 {
-    public static GameMode Instance { get; private set; }
     [SerializeField] private float _restartDuration = 5;
     [SerializeField] private int _scoreToWin = 3;
-    [SerializeField] private NewNetworkRoomManager _networkManager;
+    [SerializeField] private NetRoomManager _networkManager;
+    private readonly List<Player> _currentPlayersListPrivate = new List<Player>();
 
     public readonly SyncList<uint> CurrentPlayersBaseList = new SyncList<uint>();
-    // public readonly SyncList<PlayerInfo> CurrentPlayersList = new SyncList<PlayerInfo>();
-    private readonly List<PlayerBase> _currentPlayersListPrivate = new List<PlayerBase>();
 
     private bool _gameEnded;
+    public static GameMode Instance { get; private set; }
 
     private void Awake()
     {
         Assert.IsNull(Instance);
         Instance = this;
-        
+
         Application.targetFrameRate = 60;
-        _networkManager = (NewNetworkRoomManager)NetworkManager.singleton;
+        _networkManager = (NetRoomManager)NetworkManager.singleton;
     }
 
     public event Action<string> GameEnded;
     public event Action GameRestart;
     public event Action ClientPlayerScoreChanged;
+    public event Action ClientPlayerNameChanged;
 
     public override void OnStartServer()
     {
@@ -48,38 +49,46 @@ public class GameMode : NetworkBehaviour
     [Server]
     private void OnServerPlayerReady(NetworkIdentity networkIdentity)
     {
-        var player = networkIdentity.GetComponent<PlayerBase>();
+        var player = networkIdentity.GetComponent<Player>();
+
+        player.OnScoreChanged += OnPlayerScoreChanged;
+        player.OnNameChanged += OnPlayerNameChanged;
+
+        player.Name = "Player " + _currentPlayersListPrivate.Count;
+
         CurrentPlayersBaseList.Add(networkIdentity.netId);
         _currentPlayersListPrivate.Add(player);
-        player.OnScoreChanged += OnPlayerScoreChanged;
+
         Debug.Log("Adding player");
     }
 
     [Server]
     private void OnServerPlayerDisconnected(NetworkIdentity networkIdentity)
     {
-        var player = networkIdentity.GetComponent<PlayerBase>();
+        var player = networkIdentity.GetComponent<Player>();
+
         _currentPlayersListPrivate.Remove(player);
         CurrentPlayersBaseList.Remove(networkIdentity.netId);
+
         player.OnScoreChanged -= OnPlayerScoreChanged;
+        player.OnNameChanged -= OnPlayerNameChanged;
     }
 
     [Server]
-    private void OnPlayerScoreChanged(PlayerBase playerBase)
+    private void OnPlayerScoreChanged(Player player)
     {
         if (_gameEnded) return;
 
-        // if (_currentPlayersListPrivate.Count == 0) return;
-
         RpcPlayerScoreChanged();
 
-        // PlayerBase topPlayer = _currentPlayersListPrivate.Aggregate((cur, next) => next.Score > cur.Score ? next : cur);
-
-        if (playerBase.Score >= _scoreToWin)
+        if (player.Score >= _scoreToWin)
         {
-            FinishTheGame(playerBase.name);
+            FinishTheGame(player.Name);
         }
     }
+
+    [ClientRpc]
+    private void OnPlayerNameChanged(Player player) => ClientPlayerNameChanged?.Invoke();
 
     [ClientRpc]
     private void RpcPlayerScoreChanged() =>
@@ -88,7 +97,6 @@ public class GameMode : NetworkBehaviour
     [Server]
     private void FinishTheGame(string winnerName)
     {
-        Debug.Log("Game ended");
         _gameEnded = true;
         RPCGameEnded(winnerName);
 
@@ -100,15 +108,10 @@ public class GameMode : NetworkBehaviour
     {
         yield return new WaitForSecondsRealtime(_restartDuration);
 
-        foreach (PlayerBase somePlayer in _currentPlayersListPrivate)
+        foreach (Player somePlayer in _currentPlayersListPrivate)
         {
             somePlayer.ResetScore();
         }
-
-        // foreach (PlayerInfo info in CurrentPlayersList)
-        // {
-        //     info.Score = 0;
-        // }
 
         RespawnCurrentPlayers();
         RPCGameRestarted();
@@ -118,7 +121,7 @@ public class GameMode : NetworkBehaviour
     private void RespawnCurrentPlayers()
     {
         _networkManager.ResetUnusedStartPositions();
-        foreach (PlayerBase player in _currentPlayersListPrivate)
+        foreach (Player player in _currentPlayersListPrivate)
         {
             Transform randomSpot = _networkManager.GetStartPosition();
             player.SetPosition(randomSpot.position);
@@ -137,19 +140,5 @@ public class GameMode : NetworkBehaviour
     {
         Debug.Log("Rpc GameRestarted!");
         GameRestart?.Invoke();
-    }
-
-    [Server]
-    public void OnPlayerMadeHit(uint id, PlayerBase playerBase)
-    {
-        // PlayerInfo found = CurrentPlayersList.Find(info => info.Id == id);
-        // if (found == null)
-        // {
-        //     Debug.LogWarning($"Did not find PlayerInfo when incrementing score. Info count is {CurrentPlayersList.Count}");
-        //     return;
-        // }
-        // found.Score++;
-        // Debug.Log($"Incrementing player score on server. Should be synced. New score is {found.Score}"); // bug не синкается на клиенте
-        OnPlayerScoreChanged(playerBase);
     }
 }

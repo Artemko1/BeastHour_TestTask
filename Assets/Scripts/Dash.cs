@@ -7,7 +7,7 @@ public class Dash : NetworkBehaviour
     [SerializeField] private float _distance = 4f;
     [SerializeField] private float _duration = 0.2f;
     [SerializeField] private CharacterController _characterController;
-    [SerializeField] private PlayerBase _playerBase;
+    [SerializeField] private Player _player;
     [SerializeField] private TriggerObserver _dashCollideObserver;
 
     private bool _isDashing;
@@ -29,10 +29,10 @@ public class Dash : NetworkBehaviour
     private void TriggerEnter(Collider other)
     {
         if (!_isDashing) return;
-        if (!other.TryGetComponent(out PlayerBase playerBase)) return;
-        if (_playerBase.Equals(playerBase)) return;
+        if (!other.TryGetComponent(out Player playerBase)) return;
+        if (_player.Equals(playerBase)) return;
 
-        _playerBase.Hit(playerBase);
+        _player.Hit(playerBase);
     }
 
     private void StartBlinkCoroutine() =>

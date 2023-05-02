@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer), typeof(CharacterController))]
-public class PlayerBase : NetworkBehaviour
+public class Player : NetworkBehaviour
 {
     [SerializeField] private Renderer _characterRenderer;
     [SerializeField] private Material _alteredMaterial;
@@ -20,16 +20,24 @@ public class PlayerBase : NetworkBehaviour
     [field: SyncVar(hook = nameof(SyncScore))]
     public int Score { get; [Server] private set; }
 
+    [field: SyncVar(hook = nameof(SyncName))]
+    public string Name { get; [Server] set; }
+
     private void Awake() =>
         _originMaterials = _characterRenderer.sharedMaterials;
 
-    private void SyncScore(int oldValue, int newValue)
-    {
+    private void SyncScore(int oldValue, int newValue) =>
         // Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
         OnScoreChanged?.Invoke(this);
+
+    private void SyncName(string oldValue, string newValue)
+    {
+        Debug.Log($"Name synced from {oldValue} to {newValue}.", this);
+        OnNameChanged?.Invoke(this);
     }
 
-    public event Action<PlayerBase> OnScoreChanged;
+    public event Action<Player> OnScoreChanged;
+    public event Action<Player> OnNameChanged;
 
     [ClientRpc]
     public void SetPosition(Vector3 position)
@@ -43,7 +51,7 @@ public class PlayerBase : NetworkBehaviour
     public void ResetScore() =>
         Score = 0;
 
-    public void Hit(PlayerBase target)
+    public void Hit(Player target)
     {
         if (isClientOnly)
         {
@@ -54,7 +62,7 @@ public class PlayerBase : NetworkBehaviour
     }
 
     [Command]
-    private void CmdHitTarget(PlayerBase target)
+    private void CmdHitTarget(Player target)
     {
         Debug.Log("CmdHitTarget");
 
@@ -74,13 +82,13 @@ public class PlayerBase : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcHitTarget(PlayerBase target) // rpc вызывается и на хосте тоже, но не на чисто сервере
+    private void RpcHitTarget(Player target) // rpc вызывается и на хосте тоже, но не на чисто сервере
     {
         Debug.Log("RpcHitTarget");
         HitTarget(target);
     }
 
-    private void HitTarget(PlayerBase target) =>
+    private void HitTarget(Player target) =>
         target.TryTakeHit();
 
     private void TryTakeHit()
