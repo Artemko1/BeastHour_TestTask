@@ -19,16 +19,16 @@ public class PlayerBase : NetworkBehaviour
     [field: SyncVar(hook = nameof(HandleScoreChanged))]
     public int Score { get; [Server] private set; }
 
+    [field: SyncVar] public string Name { get; [Server] set; }
+
     private void Awake() =>
         _originMaterials = _characterRenderer.sharedMaterials;
 
-    private void HandleScoreChanged(int oldValue, int newValue)
-    {
-        Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
-        OnScoreChanged2?.Invoke();
-    }
+    private void HandleScoreChanged(int oldValue, int newValue) =>
+        // Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
+        OnScoreChanged?.Invoke(this);
 
-    public event Action OnScoreChanged2;
+    public event Action<PlayerBase> OnScoreChanged;
 
     [ClientRpc]
     public void SetPosition(Vector3 position)

@@ -8,9 +8,11 @@ public class NetManager : NetworkManager
 {
     private List<Transform> _unusedStartPositions = new List<Transform>();
 
-    public IList<PlayerBase> CurrentPlayers { get; } = new SyncList<PlayerBase>();
-    public event Action<PlayerBase> PlayerConnected;
-    public event Action<PlayerBase> PlayerDisonnected;
+    // public readonly SyncList<PlayerBase> CurrentPlayers = new SyncList<PlayerBase>();
+    // public event Action ClientConnected;
+    // public event Action ClientDisconnected;
+    public event Action<PlayerBase> ServerPlayerConnected;
+    public event Action<PlayerBase> ServerPlayerDisconnected;
 
     public override Transform GetStartPosition()
     {
@@ -30,32 +32,29 @@ public class NetManager : NetworkManager
         return position;
     }
 
-    private void ResetUnusedStartPositions() =>
+    public void ResetUnusedStartPositions() =>
         _unusedStartPositions = new List<Transform>(startPositions);
 
     public override void OnServerAddPlayer(NetworkConnectionToClient someConnection)
     {
         base.OnServerAddPlayer(someConnection);
         var player = someConnection.identity.GetComponent<PlayerBase>();
-        CurrentPlayers.Add(player);
-        PlayerConnected?.Invoke(player);
+        // CurrentPlayers.Add(player);
+        // player.name = "Player " + CurrentPlayers.Count;
+        ServerPlayerConnected?.Invoke(player);
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient disconnectedClient)
     {
         var player = disconnectedClient.identity.GetComponent<PlayerBase>();
-        CurrentPlayers.Remove(player);
-        PlayerDisonnected?.Invoke(player);
+        // CurrentPlayers.Remove(player);
+        ServerPlayerDisconnected?.Invoke(player);
         base.OnServerDisconnect(disconnectedClient);
     }
 
-    public void RespawnCurrentPlayers()
-    {
-        ResetUnusedStartPositions();
-        foreach (PlayerBase somePlayer in CurrentPlayers)
-        {
-            Transform randomSpot = GetStartPosition();
-            somePlayer.SetPosition(randomSpot.position);
-        }
-    }
+    // public override void OnClientConnect()
+    // {
+    //     base.OnClientConnect();
+    //     ClientConnected?.Invoke();
+    // }
 }

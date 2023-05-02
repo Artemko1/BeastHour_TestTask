@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
@@ -8,45 +7,80 @@ using UnityEngine;
 public class GameMode : NetworkBehaviour
 {
     [SerializeField] private float _restartDuration = 5;
-    [SerializeField] private int _scoreToWin = 3;
+    [SerializeField] private int _scoreToWin = 1;
+    [SerializeField] private NetManager _networkManager;
 
-    private IList<PlayerBase> _currentPlayersList;
+    // public IList<PlayerBase> CurrentPlayersList => _networkManager.CurrentPlayers;
+    public readonly SyncList<PlayerInfo> CurrentPlayersInfoList = new SyncList<PlayerInfo>();
+
+    // public IList<PlayerBase> CurrentPlayersList { get; private set; }
+    public readonly SyncList<PlayerBase> CurrentPlayersList = new SyncList<PlayerBase>();
 
     private bool _gameEnded;
-    private NetManager _networkManager;
 
     private void Start() =>
         Application.targetFrameRate = 60;
 
-    public static event Action<string> OnGameEnded;
-    public static event Action OnGameStarted;
+    public event Action<string> GameEnded;
+    public event Action GameRestart;
+    public event Action ClientPlayerScoreChanged;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
 
-        _networkManager = (NetManager)NetworkManager.singleton;
-        _currentPlayersList = _networkManager.CurrentPlayers;
+        // CurrentPlayersList = _networkManager.CurrentPlayers;
 
-        _networkManager.PlayerConnected += player => player.OnScoreChanged2 += HandleScoreChange;
-        _networkManager.PlayerDisonnected += player => player.OnScoreChanged2 -= HandleScoreChange;
+        _networkManager.ServerPlayerConnected += OnServerPlayerConnected;
+        _networkManager.ServerPlayerDisconnected += OnServerPlayerDisconnected;
     }
 
     [Server]
-    private void HandleScoreChange()
+    private void OnServerPlayerConnected(PlayerBase player)
+    {
+        player.Name = "Player " + CurrentPlayersList.Count;
+        CurrentPlayersList.Add(player);
+        Debug.Log("Adding player");
+        player.OnScoreChanged += HandleScoreChange;
+    }
+
+    [Server]
+    private void OnServerPlayerDisconnected(PlayerBase player)
+    {
+        bool bRemove = CurrentPlayersList.Remove(player);
+        if (bRemove)
+        {
+            Debug.Log("Removing player");
+        }
+        else
+        {
+            Debug.LogWarning("Failed to remove player");
+        }
+
+        player.OnScoreChanged -= HandleScoreChange;
+    }
+
+    [Server]
+    private void HandleScoreChange(PlayerBase playerBase)
     {
         if (_gameEnded) return;
 
-        if (_currentPlayersList.Count == 0) return;
+        if (CurrentPlayersList.Count == 0) return;
+
+        RpcPlayerScoreChanged();
 
         // PlayerBase topPlayer = _currentPlayersList.OrderByDescending(x => x.Score).First();
-        PlayerBase topPlayer = _currentPlayersList.Aggregate((cur, next) => next.Score > cur.Score ? next : cur);
+        PlayerBase topPlayer = CurrentPlayersList.Aggregate((cur, next) => next.Score > cur.Score ? next : cur);
 
         if (topPlayer.Score >= _scoreToWin)
         {
             FinishTheGame(topPlayer.name);
         }
     }
+
+    [ClientRpc]
+    private void RpcPlayerScoreChanged() =>
+        ClientPlayerScoreChanged?.Invoke();
 
     [Server]
     private void FinishTheGame(string winnerName)
@@ -63,27 +97,43 @@ public class GameMode : NetworkBehaviour
     {
         yield return new WaitForSecondsRealtime(_restartDuration);
 
-        foreach (PlayerBase somePlayer in _currentPlayersList)
+        foreach (PlayerBase somePlayer in CurrentPlayersList)
         {
             somePlayer.ResetScore();
         }
 
-        _networkManager.RespawnCurrentPlayers();
+        RespawnCurrentPlayers();
         RPCGameRestarted();
         _gameEnded = false;
+    }
+
+    private void RespawnCurrentPlayers()
+    {
+        _networkManager.ResetUnusedStartPositions();
+        foreach (PlayerBase somePlayer in CurrentPlayersList)
+        {
+            Transform randomSpot = _networkManager.GetStartPosition();
+            somePlayer.SetPosition(randomSpot.position);
+        }
     }
 
     [ClientRpc]
     private void RPCGameEnded(string winnerName)
     {
         Debug.Log("Rpc GameEnded!");
-        OnGameEnded?.Invoke(winnerName);
+        GameEnded?.Invoke(winnerName);
     }
 
     [ClientRpc]
     private void RPCGameRestarted()
     {
         Debug.Log("Rpc GameRestarted!");
-        OnGameStarted?.Invoke();
+        GameRestart?.Invoke();
     }
+}
+
+public struct PlayerInfo
+{
+    public string Name;
+    public int Score;
 }
