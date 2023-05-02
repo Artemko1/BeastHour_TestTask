@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-using Room;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,7 +10,7 @@ public class GameMode : NetworkBehaviour
     [SerializeField] private float _restartDuration = 5;
     [SerializeField] private int _scoreToWin = 3;
     [SerializeField] private NetRoomManager _networkManager;
-    private readonly List<Player> _currentPlayersListPrivate = new List<Player>();
+    private readonly List<Player.Player> _currentPlayersListPrivate = new List<Player.Player>();
 
     public readonly SyncList<uint> CurrentPlayersBaseList = new SyncList<uint>();
 
@@ -49,7 +48,7 @@ public class GameMode : NetworkBehaviour
     [Server]
     private void OnServerPlayerReady(NetworkIdentity networkIdentity)
     {
-        var player = networkIdentity.GetComponent<Player>();
+        var player = networkIdentity.GetComponent<Player.Player>();
 
         player.OnScoreChanged += OnPlayerScoreChanged;
         player.OnNameChanged += OnPlayerNameChanged;
@@ -65,7 +64,7 @@ public class GameMode : NetworkBehaviour
     [Server]
     private void OnServerPlayerDisconnected(NetworkIdentity networkIdentity)
     {
-        var player = networkIdentity.GetComponent<Player>();
+        var player = networkIdentity.GetComponent<Player.Player>();
 
         _currentPlayersListPrivate.Remove(player);
         CurrentPlayersBaseList.Remove(networkIdentity.netId);
@@ -75,7 +74,7 @@ public class GameMode : NetworkBehaviour
     }
 
     [Server]
-    private void OnPlayerScoreChanged(Player player)
+    private void OnPlayerScoreChanged(Player.Player player)
     {
         if (_gameEnded) return;
 
@@ -88,7 +87,7 @@ public class GameMode : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void OnPlayerNameChanged(Player player) => ClientPlayerNameChanged?.Invoke();
+    private void OnPlayerNameChanged(Player.Player player) => ClientPlayerNameChanged?.Invoke();
 
     [ClientRpc]
     private void RpcPlayerScoreChanged() =>
@@ -108,7 +107,7 @@ public class GameMode : NetworkBehaviour
     {
         yield return new WaitForSecondsRealtime(_restartDuration);
 
-        foreach (Player somePlayer in _currentPlayersListPrivate)
+        foreach (Player.Player somePlayer in _currentPlayersListPrivate)
         {
             somePlayer.ResetScore();
         }
@@ -121,7 +120,7 @@ public class GameMode : NetworkBehaviour
     private void RespawnCurrentPlayers()
     {
         _networkManager.ResetUnusedStartPositions();
-        foreach (Player player in _currentPlayersListPrivate)
+        foreach (Player.Player player in _currentPlayersListPrivate)
         {
             Transform randomSpot = _networkManager.GetStartPosition();
             player.SetPosition(randomSpot.position);

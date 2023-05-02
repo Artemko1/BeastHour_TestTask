@@ -1040,6 +1040,8 @@ GameObject:
   - component: {fileID: 4770217972181159112}
   - component: {fileID: 4289418562699724005}
   - component: {fileID: 274328785009287281}
+  - component: {fileID: 3231310719214322066}
+  - component: {fileID: 6010628959788765074}
   m_Layer: 7
   m_Name: Character
   m_TagString: Player
@@ -1183,7 +1185,7 @@ MonoBehaviour:
   _distance: 4
   _duration: 0.2
   _characterController: {fileID: 9005795433432916629}
-  _playerBase: {fileID: 274328785009287281}
+  _player: {fileID: 274328785009287281}
   _dashCollideObserver: {fileID: 5539968139185005401}
 --- !u!114 &4289418562699724005
 MonoBehaviour:
@@ -1238,6 +1240,33 @@ MonoBehaviour:
   _alteredMaterial: {fileID: 2100000, guid: c247c9294fb0cd74ab38abe1c6e3d517, type: 2}
   _stateChangeDuration: 3
   _characterController: {fileID: 9005795433432916629}
+--- !u!114 &3231310719214322066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ae17b41d9943b18ca6818d5b4ddba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &6010628959788765074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de09911e7ffe4dd4b141ca496f64533c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4523139366846529165
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,7 +49,7 @@ namespace UI
             // Debug.Log($"Refresh! List length is {_gameMode.CurrentPlayersBaseList.Count}");
             foreach (uint playerId in _gameMode.CurrentPlayersBaseList)
             {
-                var player = NetworkClient.spawned[playerId].GetComponent<Player>();
+                var player = NetworkClient.spawned[playerId].GetComponent<Player.Player>();
 
                 ScoreLine line = Instantiate(_linePrefab, transform);
                 line.Init(player.Name, player.Score.ToString());
