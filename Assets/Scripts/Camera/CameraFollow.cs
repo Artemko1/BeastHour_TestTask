@@ -1,5 +1,4 @@
 using Mirror;
-using UnityEngine;
 
 namespace Camera
 {
@@ -8,7 +7,6 @@ namespace Camera
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            Debug.Log("OnStartLocalPlayer", this);
             UnityEngine.Camera.main.GetComponent<ThirdPersonCamera>().SetTarget(transform);
         }
     }

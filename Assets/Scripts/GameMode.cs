@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class GameMode : NetworkBehaviour
 {
@@ -15,13 +14,9 @@ public class GameMode : NetworkBehaviour
     public readonly SyncList<uint> CurrentPlayersBaseList = new SyncList<uint>();
 
     private bool _gameEnded;
-    public static GameMode Instance { get; private set; }
 
     private void Awake()
     {
-        Assert.IsNull(Instance);
-        Instance = this;
-
         Application.targetFrameRate = 60;
         _networkManager = (NetRoomManager)NetworkManager.singleton;
     }
@@ -57,8 +52,6 @@ public class GameMode : NetworkBehaviour
 
         CurrentPlayersBaseList.Add(networkIdentity.netId);
         _currentPlayersListPrivate.Add(player);
-
-        // Debug.Log("Adding player");
     }
 
     [Server]
@@ -128,16 +121,10 @@ public class GameMode : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RPCGameEnded(string winnerName)
-    {
-        // Debug.Log("Rpc GameEnded!");
+    private void RPCGameEnded(string winnerName) =>
         GameEnded?.Invoke(winnerName);
-    }
 
     [ClientRpc]
-    private void RPCGameRestarted()
-    {
-        // Debug.Log("Rpc GameRestarted!");
+    private void RPCGameRestarted() =>
         GameRestart?.Invoke();
-    }
 }

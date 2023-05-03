@@ -20,8 +20,7 @@ namespace Player
 
         [field: SyncVar(hook = nameof(SyncName))]
         public string Name { get; [Server] set; }
-
-
+        
         private void SyncIsInvulnerable(bool oldValue, bool newValue)
         {
             // Debug.Log($"Invulnerable synced from {oldValue} to {newValue}. Value is {IsInvulnerable}", this);
@@ -39,11 +38,8 @@ namespace Player
         private void SyncScore(int oldValue, int newValue) =>
             OnScoreChanged?.Invoke(this);
 
-        private void SyncName(string oldValue, string newValue)
-        {
-            Debug.Log($"Name synced from {oldValue} to {newValue}.", this);
+        private void SyncName(string oldValue, string newValue) =>
             OnNameChanged?.Invoke(this);
-        }
 
         public event Action<Player> OnScoreChanged;
         public event Action<Player> OnNameChanged;
@@ -57,8 +53,15 @@ namespace Player
         }
 
         [Server]
-        public void ResetScore() =>
+        public void ResetScore()
+        {
+            int prev = Score;
             Score = 0;
+            if (isServerOnly)
+            {
+                SyncScore(prev, Score);
+            }
+        }
 
         public void Hit(Player target)
         {
@@ -78,6 +81,10 @@ namespace Player
             target.ToInvulnerable();
             target.ToNotInvulnerableWithDelay();
             Score++;
+            if (isServerOnly) // because hooks are not called on server-only..
+            {
+                SyncScore(-1, Score);
+            }
         }
 
         private void ToInvulnerable()
@@ -87,6 +94,7 @@ namespace Player
             SyncIsInvulnerable(_isInvulnerable, true);
         }
 
+        [Server]
         private void ToNotInvulnerableWithDelay() =>
             StartCoroutine(ToNotInvulnerableRoutine());
 

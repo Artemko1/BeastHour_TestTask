@@ -7,7 +7,7 @@ namespace Player
         [SerializeField] private Renderer _characterRenderer;
         [SerializeField] private Material _alteredMaterial;
         private Material[] _originMaterials;
-        
+
         private void Awake() =>
             _originMaterials = _characterRenderer.sharedMaterials;
 

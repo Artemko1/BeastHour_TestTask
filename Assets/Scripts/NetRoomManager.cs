@@ -28,6 +28,16 @@ public class NetRoomManager : NetworkRoomManager
         return position;
     }
 
+    public override void OnRoomServerSceneChanged(string sceneName)
+    {
+        base.OnRoomServerSceneChanged(sceneName);
+        // Resetting unused positions to prevent them keeping state on return to lobby
+        if (sceneName == RoomScene)
+        {
+            ResetUnusedStartPositions();
+        }
+    }
+
     public void ResetUnusedStartPositions() =>
         _unusedStartPositions = new List<Transform>(startPositions);
 

@@ -7,6 +7,7 @@ namespace UI
     {
         [SerializeField] private Text _winnerNameText;
 
-        public void SetWinnerName(string winnerName) => _winnerNameText.text = "Winner is: " + winnerName;
+        public void SetWinnerName(string winnerName) =>
+            _winnerNameText.text = "Winner is: " + winnerName;
     }
 }

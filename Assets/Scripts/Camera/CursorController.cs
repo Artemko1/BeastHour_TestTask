@@ -11,10 +11,15 @@ namespace Camera
             {
                 Cursor.lockState = CursorLockMode.None;
             }
+
+            if (InputService.RMB)
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+            }
         }
 
         private void OnEnable() =>
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Confined;
 
         private void OnDisable() =>
             Cursor.lockState = CursorLockMode.None;
