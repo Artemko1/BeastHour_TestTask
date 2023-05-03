@@ -14,10 +14,11 @@ namespace Player
 
         [SerializeField] private CharacterController _characterController;
 
-        private bool _isInAlteredState;
         private Material[] _originMaterials;
 
-        private bool CanBeHit => !_isInAlteredState;
+
+        [field: SyncVar(hook = nameof(SyncIsInvulnerable))]
+        public bool IsInvulnerable { get; [Server] private set; }
 
         [field: SyncVar(hook = nameof(SyncScore))]
         public int Score { get; [Server] private set; }
@@ -27,6 +28,19 @@ namespace Player
 
         private void Awake() =>
             _originMaterials = _characterRenderer.sharedMaterials;
+
+        private void SyncIsInvulnerable(bool oldValue, bool newValue)
+        {
+            Debug.Log($"Invulnerable synced from {oldValue} to {newValue}.", this);
+            if (newValue)
+            {
+                ToAlteredState();
+            }
+            else
+            {
+                ToNormalState();
+            }
+        }
 
         private void SyncScore(int oldValue, int newValue) =>
             // Debug.Log($"Score changed from {oldValue} to {newValue}. Score is {Score}", this);
@@ -57,7 +71,9 @@ namespace Player
         {
             if (isClientOnly)
             {
-                HitTarget(target); // для локального отображения на клиенте без задержки
+                // HitTarget(target); // для локального отображения на клиенте без задержки
+                target.IsInvulnerable = true;
+                target.SyncIsInvulnerable(false, true);
             }
 
             CmdHitTarget(target);
@@ -66,46 +82,40 @@ namespace Player
         [Command]
         private void CmdHitTarget(Player target)
         {
-            Debug.Log("CmdHitTarget");
-
-            if (!target.CanBeHit) // server validation
+            if (target.IsInvulnerable) // server validation
             {
                 return;
             }
 
+            target.ToInvulnerable();
+            Score++;
+        }
+
+        [Server]
+        private void ToInvulnerable()
+        {
+            IsInvulnerable = true;
             if (isServerOnly)
             {
-                HitTarget(target); // Чтобы на сервере тоже поменялось
+                SyncIsInvulnerable(false, true);
             }
 
-            Score++;
-
-            RpcHitTarget(target);
+            StartCoroutine(ToNotInvulnerableRoutine());
         }
 
-        [ClientRpc]
-        private void RpcHitTarget(Player target) // rpc вызывается и на хосте тоже, но не на чисто сервере
+        [Server]
+        private IEnumerator ToNotInvulnerableRoutine()
         {
-            Debug.Log("RpcHitTarget");
-            HitTarget(target);
-        }
-
-        private void HitTarget(Player target) =>
-            target.TryTakeHit();
-
-        private void TryTakeHit()
-        {
-            // Debug.Log("TryTakeHit call on target", this);
-            if (!CanBeHit) return; // client validation
-
-            ToAlteredState();
-
-            StartCoroutine(ToNormalStateWithDelay());
+            yield return new WaitForSeconds(_stateChangeDuration);
+            IsInvulnerable = false;
+            if (isServerOnly)
+            {
+                SyncIsInvulnerable(true, false);
+            }
         }
 
         private void ToAlteredState()
         {
-            _isInAlteredState = true;
             Material[] materials = _characterRenderer.materials;
 
             for (var i = 0; i < materials.Length; i++)
@@ -116,11 +126,7 @@ namespace Player
             _characterRenderer.materials = materials;
         }
 
-        private IEnumerator ToNormalStateWithDelay()
-        {
-            yield return new WaitForSeconds(_stateChangeDuration);
+        private void ToNormalState() =>
             _characterRenderer.materials = _originMaterials;
-            _isInAlteredState = false;
-        }
     }
 }
