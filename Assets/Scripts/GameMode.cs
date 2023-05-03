@@ -58,7 +58,7 @@ public class GameMode : NetworkBehaviour
         CurrentPlayersBaseList.Add(networkIdentity.netId);
         _currentPlayersListPrivate.Add(player);
 
-        Debug.Log("Adding player");
+        // Debug.Log("Adding player");
     }
 
     [Server]
@@ -130,14 +130,14 @@ public class GameMode : NetworkBehaviour
     [ClientRpc]
     private void RPCGameEnded(string winnerName)
     {
-        Debug.Log("Rpc GameEnded!");
+        // Debug.Log("Rpc GameEnded!");
         GameEnded?.Invoke(winnerName);
     }
 
     [ClientRpc]
     private void RPCGameRestarted()
     {
-        Debug.Log("Rpc GameRestarted!");
+        // Debug.Log("Rpc GameRestarted!");
         GameRestart?.Invoke();
     }
 }

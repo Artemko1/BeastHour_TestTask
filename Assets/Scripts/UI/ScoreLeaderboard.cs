@@ -14,6 +14,7 @@ namespace UI
         private void Start()
         {
             _gameMode.ClientPlayerScoreChanged += Refresh;
+            _gameMode.GameRestart += Refresh;
             _gameMode.ClientPlayerNameChanged += Refresh;
             _gameMode.CurrentPlayersBaseList.Callback += OnCallbackRefresh;
         }
