@@ -9,9 +9,10 @@ public class GameMode : NetworkBehaviour
     [SerializeField] private float _restartDuration = 5;
     [SerializeField] private int _scoreToWin = 3;
     [SerializeField] private NetRoomManager _networkManager;
-    private readonly List<Player.Player> _currentPlayersListPrivate = new List<Player.Player>();
 
-    public readonly SyncList<uint> CurrentPlayersBaseList = new SyncList<uint>();
+    private readonly List<Player.Player> _currentPlayers = new List<Player.Player>();
+
+    public readonly SyncList<uint> CurrentPlayersIds = new SyncList<uint>();
 
     private bool _gameEnded;
 
@@ -48,10 +49,10 @@ public class GameMode : NetworkBehaviour
         player.OnScoreChanged += OnPlayerScoreChanged;
         player.OnNameChanged += OnPlayerNameChanged;
 
-        player.Name = "Player " + _currentPlayersListPrivate.Count;
+        player.Name = "Player " + _currentPlayers.Count;
 
-        CurrentPlayersBaseList.Add(networkIdentity.netId);
-        _currentPlayersListPrivate.Add(player);
+        CurrentPlayersIds.Add(networkIdentity.netId);
+        _currentPlayers.Add(player);
     }
 
     [Server]
@@ -59,8 +60,8 @@ public class GameMode : NetworkBehaviour
     {
         var player = networkIdentity.GetComponent<Player.Player>();
 
-        _currentPlayersListPrivate.Remove(player);
-        CurrentPlayersBaseList.Remove(networkIdentity.netId);
+        _currentPlayers.Remove(player);
+        CurrentPlayersIds.Remove(networkIdentity.netId);
 
         player.OnScoreChanged -= OnPlayerScoreChanged;
         player.OnNameChanged -= OnPlayerNameChanged;
@@ -100,7 +101,7 @@ public class GameMode : NetworkBehaviour
     {
         yield return new WaitForSecondsRealtime(_restartDuration);
 
-        foreach (Player.Player somePlayer in _currentPlayersListPrivate)
+        foreach (Player.Player somePlayer in _currentPlayers)
         {
             somePlayer.ResetScore();
         }
@@ -113,7 +114,7 @@ public class GameMode : NetworkBehaviour
     private void RespawnCurrentPlayers()
     {
         _networkManager.ResetUnusedStartPositions();
-        foreach (Player.Player player in _currentPlayersListPrivate)
+        foreach (Player.Player player in _currentPlayers)
         {
             Transform randomSpot = _networkManager.GetStartPosition();
             player.SetPosition(randomSpot.position);

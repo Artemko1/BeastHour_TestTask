@@ -17,7 +17,7 @@ namespace UI
             _gameMode.ClientPlayerScoreChanged += Refresh;
             _gameMode.GameRestart += Refresh;
             _gameMode.ClientPlayerNameChanged += Refresh;
-            _gameMode.CurrentPlayersBaseList.Callback += OnCallbackRefresh;
+            _gameMode.CurrentPlayersIds.Callback += OnCallbackRefresh;
         }
 
         private void OnDestroy()
@@ -25,7 +25,7 @@ namespace UI
             _gameMode.ClientPlayerScoreChanged -= Refresh;
             _gameMode.GameRestart -= Refresh;
             _gameMode.ClientPlayerNameChanged -= Refresh;
-            _gameMode.CurrentPlayersBaseList.Callback -= OnCallbackRefresh;
+            _gameMode.CurrentPlayersIds.Callback -= OnCallbackRefresh;
         }
 
         private void OnCallbackRefresh(SyncList<uint>.Operation operation, int itemindex, uint olditem, uint newitem) =>
@@ -39,7 +39,7 @@ namespace UI
         {
             yield return null;
             var tryCount = 0;
-            while (!_gameMode.CurrentPlayersBaseList.All(netId => NetworkClient.spawned.ContainsKey(netId)))
+            while (!_gameMode.CurrentPlayersIds.All(netId => NetworkClient.spawned.ContainsKey(netId)))
             {
                 yield return null;
                 tryCount++;
@@ -55,8 +55,8 @@ namespace UI
                 Destroy(child.gameObject);
             }
 
-            // Debug.Log($"Refresh! List length is {_gameMode.CurrentPlayersBaseList.Count}");
-            foreach (uint playerId in _gameMode.CurrentPlayersBaseList)
+            // Debug.Log($"Refresh! List length is {_gameMode.CurrentPlayersIds.Count}");
+            foreach (uint playerId in _gameMode.CurrentPlayersIds)
             {
                 var player = NetworkClient.spawned[playerId].GetComponent<Player.Player>();
 
