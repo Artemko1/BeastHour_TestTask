@@ -10,7 +10,6 @@ public class PlayerView : View
     public void Move(Vector3 moveVector)
     {
         _characterController.Move(moveVector);
-        // Debug.Log($"Move {moveVector}");
         if (moveVector.sqrMagnitude > Mathf.Epsilon)
         {
             transform.forward = moveVector;    
@@ -20,6 +19,5 @@ public class PlayerView : View
     private void Update()
     {
         _playerAnimator.PlayMove(_characterController.velocity.magnitude);
-        // Debug.Log(_characterController.velocity.magnitude);
     }
 }

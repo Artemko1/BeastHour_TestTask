@@ -13,8 +13,8 @@ public class View : MonoBehaviour, IDestroyedListener
         _linkedEntity = (GameEntity)entity;
         _linkedEntity.AddDestroyedListener(this);
 
-        var pos = _linkedEntity.position.Value;
-        transform.localPosition = new Vector3(pos.x, pos.y);
+        Vector3 pos = _linkedEntity.position.Value;
+        transform.localPosition = pos;
     }
 
     private void Update()

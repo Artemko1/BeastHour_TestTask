@@ -28,18 +28,25 @@ namespace BH.Input.UserInput
                 var moveInputComponent = _contexts.input.moveInput;
                 var camera = _contexts.game.cameraEntity;
 
-                Vector3 moveVector = camera.view.Value.transform.TransformDirection(moveInputComponent.Value);
-                moveVector.y = 0;
-                moveVector.Normalize();
+                Vector3 moveVector = TransformToCameraLocalCoordinates(camera, moveInputComponent);
 
                 float speed = _contexts.config.gameConfig.value.PlayerSpeed;
                 float deltaTime = _contexts.input.deltaTime.value;
+                
                 playerView.Move(moveVector * speed * deltaTime);
             }
             else
             {
                 playerView.Move(new Vector3());
             }
+        }
+
+        private static Vector3 TransformToCameraLocalCoordinates(GameEntity camera, MoveInputComponent moveInputComponent)
+        {
+            Vector3 moveVector = camera.view.Value.transform.TransformDirection(moveInputComponent.Value);
+            moveVector.y = 0;
+            moveVector.Normalize();
+            return moveVector;
         }
     }
 }

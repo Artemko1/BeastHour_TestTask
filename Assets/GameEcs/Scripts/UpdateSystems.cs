@@ -1,5 +1,4 @@
 ﻿using BH.Input.UserInput;
-using BH.Player.Camera;
 
 public class UpdateSystems : Feature
 {
@@ -15,7 +14,6 @@ public class UpdateSystems : Feature
 
         // View
         Add(new AddViewSystem(contexts));
-        Add(new CameraControlSystem(contexts));
     }
 }
 

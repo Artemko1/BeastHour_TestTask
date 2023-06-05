@@ -1,4 +1,3 @@
-using Player;
 using UnityEngine;
 
 namespace Camera
@@ -18,6 +17,7 @@ namespace Camera
         private float _verticalDelta;
         private float _xRotation;
 
+        // todo вызывать из ecs
         private void Update() =>
             ReadInput();
 
@@ -34,7 +34,7 @@ namespace Camera
         }
 
         public void SetTarget(Transform target) => _target = target.gameObject;
-
+        
         private void ReadInput()
         {
             Vector2 mouseInput = InputService.MouseAxis;

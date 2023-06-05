@@ -1,7 +1,7 @@
 using Camera;
 using UnityEngine;
 
-public class CameraView : View, IAnyLocalPlayerListener, IPositionListener
+public class CameraView : View, IAnyLocalPlayerListener
 {
     [SerializeField] private Transform _target;
 
@@ -17,15 +17,7 @@ public class CameraView : View, IAnyLocalPlayerListener, IPositionListener
 
     public void OnAnyLocalPlayer(GameEntity entity)
     {
-        Debug.Log("OnAnyLocalPlayer!");
-        // entity.AddPositionListener(this);
         _target = entity.view.Value.transform;
         _thirdPersonCamera.SetTarget(_target);
-    }
-
-    public void OnPosition(GameEntity entity, Vector3 value)
-    {
-        Debug.Log("OnAnyLocalPlayer OnPosition!");
-        // _target.position = value;
     }
 }
