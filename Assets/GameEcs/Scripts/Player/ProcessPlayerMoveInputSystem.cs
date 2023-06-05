@@ -15,7 +15,7 @@ namespace BH.Input.UserInput
 
         protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context) =>
             context.CreateCollector(InputMatcher.MoveInput.AddedOrRemoved());
-        
+
         protected override bool Filter(InputEntity entity) => true;
 
         protected override void Execute(List<InputEntity> entities)
@@ -26,45 +26,20 @@ namespace BH.Input.UserInput
             if (_contexts.input.hasMoveInput)
             {
                 var moveInputComponent = _contexts.input.moveInput;
+                var camera = _contexts.game.cameraEntity;
+
+                Vector3 moveVector = camera.view.Value.transform.TransformDirection(moveInputComponent.Value);
+                moveVector.y = 0;
+                moveVector.Normalize();
+
                 float speed = _contexts.config.gameConfig.value.PlayerSpeed;
                 float deltaTime = _contexts.input.deltaTime.value;
-                playerView.Move(moveInputComponent.Value * speed * deltaTime);
+                playerView.Move(moveVector * speed * deltaTime);
             }
             else
             {
                 playerView.Move(new Vector3());
             }
-            
-            // if (moveInput.sqrMagnitude > Mathf.Epsilon)
-            // {
-            //     movementVector = _camera.transform.TransformDirection(moveInput);
-            //     movementVector.y = 0;
-            //     movementVector.Normalize();
-            //
-            //     transform.forward = movementVector;
-            // }
         }
     }
-    
-    
-    
-    // public sealed class AnimateCharactersSystem : IExecuteSystem
-    // {
-    //     private readonly Contexts _contexts;
-    //     private readonly IGroup<GameEntity> _players;
-    //
-    //     public AnimateCharactersSystem(Contexts contexts)
-    //     {
-    //         _contexts = contexts;
-    //         _players = contexts.game.GetGroup(GameMatcher.Player);
-    //     }
-    //
-    //     public void Execute()
-    //     {
-    //         foreach (var e in _players.GetEntities())
-    //         {
-    //             e.view
-    //         }
-    //     }
-    // }
 }

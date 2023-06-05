@@ -39,7 +39,6 @@ public sealed class UpdateUserInputSystem : IExecuteSystem, ICleanupSystem
         foreach (var e in _moveInputs.GetEntities())
         {
             e.Destroy();
-            Debug.Log("Destroy");
         }
     }
 }

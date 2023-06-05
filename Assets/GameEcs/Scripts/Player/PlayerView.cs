@@ -11,6 +11,10 @@ public class PlayerView : View
     {
         _characterController.Move(moveVector);
         // Debug.Log($"Move {moveVector}");
+        if (moveVector.sqrMagnitude > Mathf.Epsilon)
+        {
+            transform.forward = moveVector;    
+        }
     }
 
     private void Update()

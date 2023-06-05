@@ -41,6 +41,8 @@ namespace BH.Player
             var e = _contexts.game.CreateEntity();
 
             e.isCamera = true;
+            e.AddAsset("MainCamera");
+            e.AddPosition(new Vector3());
         }
     }
 }

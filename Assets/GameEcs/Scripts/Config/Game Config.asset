@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Game Config
   m_EditorClassIdentifier: 
   <PlayerStartPosition>k__BackingField: {x: 0, y: 0, z: 0}
-  <PlayerSpeed>k__BackingField: 7
+  <PlayerSpeed>k__BackingField: 5
