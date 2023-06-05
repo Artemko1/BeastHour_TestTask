@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89df5d7d42414bce92718fe6f742690c, type: 3}
   m_Name: Game Config
   m_EditorClassIdentifier: 
-  _playerStartPosition: {x: 0, y: 0, z: 2}
+  <PlayerStartPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <PlayerSpeed>k__BackingField: 4

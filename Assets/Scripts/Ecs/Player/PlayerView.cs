@@ -10,6 +10,12 @@ public class PlayerView : View
     public void Move(Vector3 moveVector)
     {
         _characterController.Move(moveVector);
+        // Debug.Log($"Move {moveVector}");
+    }
+
+    private void Update()
+    {
         _playerAnimator.PlayMove(_characterController.velocity.magnitude);
+        // Debug.Log(_characterController.velocity.magnitude);
     }
 }

@@ -1,7 +1,7 @@
 using Entitas;
 using Entitas.CodeGeneration.Attributes;
 
-[Unique]
+[Unique, Game, Event(EventTarget.Any)]
 public class LocalPlayerComponent : IComponent
 {
 }

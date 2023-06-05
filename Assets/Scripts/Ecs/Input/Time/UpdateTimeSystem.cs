@@ -12,7 +12,6 @@ public sealed class UpdateTimeSystem : IExecuteSystem, IInitializeSystem
 
     public void Initialize()
     {
-        //Make it bulletproof
         Execute();
     }
 

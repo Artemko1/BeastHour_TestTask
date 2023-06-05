@@ -19,6 +19,7 @@ namespace BH.Player
             SceneManager.LoadScene(SceneName);
 
             CreatePlayer();
+            CreateCamera();
         }
 
         private void CreatePlayer()
@@ -33,6 +34,13 @@ namespace BH.Player
             // e.AddId((int)id);
             e.AddAsset("Player");
             e.AddPosition(position);
+        }
+
+        private void CreateCamera()
+        {
+            var e = _contexts.game.CreateEntity();
+
+            e.isCamera = true;
         }
     }
 }

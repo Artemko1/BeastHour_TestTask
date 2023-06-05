@@ -9,17 +9,14 @@
 public static class ConfigComponentsLookup {
 
     public const int GameConfig = 0;
-    public const int StartPlayerPosition = 1;
 
-    public const int TotalComponents = 2;
+    public const int TotalComponents = 1;
 
     public static readonly string[] componentNames = {
-        "GameConfig",
-        "StartPlayerPosition"
+        "GameConfig"
     };
 
     public static readonly System.Type[] componentTypes = {
-        typeof(GameConfigComponent),
-        typeof(StartPlayerPositionComponent)
+        typeof(GameConfigComponent)
     };
 }

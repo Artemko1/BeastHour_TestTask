@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IGameConfig
 {
     Vector3 PlayerStartPosition { get; }
+    float PlayerSpeed { get; }
 }

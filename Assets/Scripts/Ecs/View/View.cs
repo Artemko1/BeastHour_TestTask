@@ -19,8 +19,11 @@ public class View : MonoBehaviour, IDestroyedListener
 
     private void Update()
     {
-        // Чтобы в ecs всегда была актуальная позиция. 
-        _linkedEntity.ReplacePosition(transform.position);
+        // Чтобы в ecs всегда была актуальная позиция.
+        if (_linkedEntity.position.Value != transform.position)
+        {
+            _linkedEntity.ReplacePosition(transform.position);
+        }
     }
 
     public virtual void OnDestroyed(GameEntity entity) => OnDestroy();
