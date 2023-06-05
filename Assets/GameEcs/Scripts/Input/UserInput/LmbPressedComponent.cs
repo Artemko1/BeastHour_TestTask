@@ -1,7 +1,7 @@
 using Entitas;
 using Entitas.CodeGeneration.Attributes;
 
-[Input][Unique]
+[Input, Unique, Cleanup(CleanupMode.DestroyEntity)]
 public sealed class LmbInputComponent : IComponent
 {
 }

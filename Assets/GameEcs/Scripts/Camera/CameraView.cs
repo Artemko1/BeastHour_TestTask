@@ -1,23 +1,21 @@
 using Camera;
 using UnityEngine;
 
-public class CameraView : View, IAnyLocalPlayerListener
+public class CameraView : View, IPositionListener
 {
     [SerializeField] private Transform _target;
-
     [SerializeField] private ThirdPersonCamera _thirdPersonCamera;
 
     private void Start()
     {
         // Assumes that localPlayer is already created
-        var entity = Contexts.sharedInstance.game.localPlayerEntity;
-        _target = entity.view.Value.transform;
-        _thirdPersonCamera.SetTarget(_target);
+        var localPlayerEntity = Contexts.sharedInstance.game.localPlayerEntity;
+        localPlayerEntity.AddPositionListener(this);
     }
 
-    public void OnAnyLocalPlayer(GameEntity entity)
+    public void OnPosition(GameEntity entity, Vector3 value)
     {
-        _target = entity.view.Value.transform;
-        _thirdPersonCamera.SetTarget(_target);
+        Debug.Log("OnAnyLocalPlayer OnPosition!");
+        _thirdPersonCamera.UpdateTargetPosition(value);
     }
 }

@@ -16,8 +16,9 @@ public class PlayerView : View
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         _playerAnimator.PlayMove(_characterController.velocity.magnitude);
     }
 }

@@ -10,5 +10,6 @@ public sealed class InputCleanupSystems : Feature {
 
     public InputCleanupSystems(Contexts contexts) {
         Add(new DestroyMoveInputInputSystem(contexts));
+        Add(new DestroyLmbInputInputSystem(contexts));
     }
 }

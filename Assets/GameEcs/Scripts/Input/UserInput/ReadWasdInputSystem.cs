@@ -1,13 +1,13 @@
 using Entitas;
 using UnityEngine;
 
-public sealed class UpdateUserInputSystem : IExecuteSystem, ICleanupSystem
+public sealed class ReadWasdInputSystem : IExecuteSystem, ICleanupSystem
 {
     private readonly Contexts _contexts;
 
     private readonly IGroup<InputEntity> _moveInputs;
 
-    public UpdateUserInputSystem(Contexts contexts)
+    public ReadWasdInputSystem(Contexts contexts)
     {
         _contexts = contexts;
         _moveInputs = contexts.input.GetGroup(InputMatcher.MoveInput);
@@ -15,22 +15,13 @@ public sealed class UpdateUserInputSystem : IExecuteSystem, ICleanupSystem
     
     public void Execute()
     {
-        // var entity = _contexts.input.CreateEntity();
-        var inputContext = _contexts.input;
-        
         Vector2 moveAxis = InputService.MovementAxis;
 
         if (moveAxis != Vector2.zero)
         {
-            // entity.AddMoveInput(moveAxis);
-            inputContext.ReplaceMoveInput(moveAxis);
-        }
-        
-        bool lmb = InputService.LMB;
-        if (lmb)
-        {
-            // entity.isLmbInput = true;
-            inputContext.isLmbInput = true;
+            var entity = _contexts.input.CreateEntity();
+            entity.AddMoveInput(moveAxis);
+            // inputContext.ReplaceMoveInput(moveAxis);
         }
     }
 

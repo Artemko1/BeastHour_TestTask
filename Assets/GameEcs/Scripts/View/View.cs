@@ -17,7 +17,7 @@ public class View : MonoBehaviour, IDestroyedListener
         transform.localPosition = pos;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         // Чтобы в ecs всегда была актуальная позиция.
         if (_linkedEntity.position.Value != transform.position)

@@ -7,7 +7,7 @@ namespace Camera
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            UnityEngine.Camera.main.GetComponent<ThirdPersonCamera>().SetTarget(transform);
+            // UnityEngine.Camera.main.GetComponent<ThirdPersonCamera>().SetTarget(transform);
         }
     }
 }

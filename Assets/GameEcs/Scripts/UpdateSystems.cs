@@ -14,6 +14,9 @@ public class UpdateSystems : Feature
 
         // View
         Add(new AddViewSystem(contexts));
+
+
+        Add(new GameEventSystems(contexts));
     }
 }
 
@@ -24,6 +27,6 @@ public class InputSystems : Feature
         // Add(new InitPointerSystem(contexts));
 
         Add(new UpdateTimeSystem(contexts));
-        Add(new UpdateUserInputSystem(contexts));
+        Add(new ReadWasdInputSystem(contexts));
     }
 }

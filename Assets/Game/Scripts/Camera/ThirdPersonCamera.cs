@@ -17,23 +17,24 @@ namespace Camera
         private float _verticalDelta;
         private float _xRotation;
 
+        private Vector3 _targetPos;
+
         // todo вызывать из ecs
         private void Update() =>
             ReadInput();
 
         private void LateUpdate()
         {
-            if (_target == null) return;
-
             _xRotation += _verticalDelta;
             _xRotation = Mathf.Clamp(_xRotation, MinTurnAngle, MaxTurnAngle);
 
             Transform cameraTransform = transform;
             cameraTransform.eulerAngles = new Vector3(-_xRotation, cameraTransform.eulerAngles.y + _horizontalDelta, 0);
-            cameraTransform.position = _target.transform.position - cameraTransform.forward * _targetDistance + _offset;
+            cameraTransform.position = _targetPos - cameraTransform.forward * _targetDistance + _offset;
         }
 
-        public void SetTarget(Transform target) => _target = target.gameObject;
+        // public void SetTarget(Transform target) => _target = target.gameObject;
+        public void UpdateTargetPosition(Vector3 target) => _targetPos = target;
         
         private void ReadInput()
         {
