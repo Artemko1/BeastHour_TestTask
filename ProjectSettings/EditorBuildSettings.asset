@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/Scenes/OfflineScene.unity
-    guid: c7cece0d8ab742447a76495f1975d773
+    path: Assets/Scenes/BootstrupScene.unity
+    guid: 1ce1ebfb37be11a4aad20e6db1290ca8
   - enabled: 1
-    path: Assets/Game/Scenes/RoomScene.unity
-    guid: 3fd8ebf7a24aa6147a8a740e59948f66
-  - enabled: 1
-    path: Assets/Game/Scenes/GameScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/GameScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
