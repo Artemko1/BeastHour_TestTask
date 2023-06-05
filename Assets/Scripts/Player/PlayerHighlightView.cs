@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerView : MonoBehaviour
+    public class PlayerHighlightView : MonoBehaviour
     {
         [SerializeField] private Renderer _characterRenderer;
         [SerializeField] private Material _alteredMaterial;

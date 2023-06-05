@@ -19,8 +19,7 @@ public class View : MonoBehaviour, IDestroyedListener
 
     private void Update()
     {
-        // Чтобы в ецс всегда была актуальная позиция. 
-        // todo создать систему, которая будет вызывать characterController.Move и тоже синкать позицию
+        // Чтобы в ecs всегда была актуальная позиция. 
         _linkedEntity.ReplacePosition(transform.position);
     }
 

@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(PlayerView), typeof(CharacterController))]
+    [RequireComponent(typeof(PlayerHighlightView), typeof(CharacterController))]
     public class Player : NetworkBehaviour
     {
         [SerializeField] private float _stateChangeDuration;
-        [SerializeField] private PlayerView _playerView;
+        [SerializeField] private PlayerHighlightView _playerView;
         [SerializeField] private CharacterController _characterController;
 
         [SyncVar(hook = nameof(SyncIsInvulnerable))]
