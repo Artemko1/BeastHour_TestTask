@@ -14,7 +14,7 @@ namespace BH.Input.UserInput
         }
 
         protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context) =>
-            context.CreateCollector(InputMatcher.MoveInput.AddedOrRemoved());
+            context.CreateCollector(InputMatcher.LmbInput.AddedOrRemoved());
 
         protected override bool Filter(InputEntity entity) => true;
 
@@ -23,30 +23,21 @@ namespace BH.Input.UserInput
             var e = _contexts.game.localPlayerEntity;
 
             var playerView = (PlayerView)e.view.Value;
-            if (_contexts.input.hasMoveInput)
+            if (_contexts.input.isLmbInput)
             {
-                var moveInputComponent = _contexts.input.moveInput;
-                var camera = _contexts.game.cameraEntity;
-
-                Vector3 moveVector = TransformToCameraLocalCoordinates(camera, moveInputComponent);
-
-                float speed = _contexts.config.gameConfig.value.PlayerSpeed;
-                float deltaTime = _contexts.input.deltaTime.value;
-                
-                playerView.Move(moveVector * speed * deltaTime);
-            }
-            else
-            {
-                playerView.Move(new Vector3());
+                StartBlinking(e);
             }
         }
 
-        private static Vector3 TransformToCameraLocalCoordinates(GameEntity camera, MoveInputComponent moveInputComponent)
+        private void StartBlinking(GameEntity e)
         {
-            Vector3 moveVector = camera.view.Value.transform.TransformDirection(moveInputComponent.Value);
-            moveVector.y = 0;
-            moveVector.Normalize();
-            return moveVector;
+            float duration = _contexts.config.gameConfig.value.BlinkDuration;
+            // Если на сущности есть велосити, то берём его для направления. Иначе берём прямо.
+            // if (e.)
+            // {
+            //     
+            // }
+            // e.AddBlinking(duration, );
         }
     }
 }

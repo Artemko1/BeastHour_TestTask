@@ -19,7 +19,7 @@ public sealed class ReadLmbInputSystem : IExecuteSystem, ICleanupSystem
         {
             var entity = _contexts.input.CreateEntity();
             entity.isLmbInput = true;
-            // inputContext.isLmbInput = true;
+            // inputContext.isLmbInput = true; // В чем тут была бы разница?
         }
     }
 

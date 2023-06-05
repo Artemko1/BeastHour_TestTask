@@ -22,7 +22,6 @@ namespace BH.Input.UserInput
         {
             var e = _contexts.game.localPlayerEntity;
 
-            var playerView = (PlayerView)e.view.Value;
             if (_contexts.input.hasMoveInput)
             {
                 var moveInputComponent = _contexts.input.moveInput;
@@ -30,14 +29,14 @@ namespace BH.Input.UserInput
 
                 Vector3 moveVector = TransformToCameraLocalCoordinates(camera, moveInputComponent);
 
-                float speed = _contexts.config.gameConfig.value.PlayerSpeed;
-                float deltaTime = _contexts.input.deltaTime.value;
-                
-                playerView.Move(moveVector * speed * deltaTime);
+                e.ReplaceDesiredMoveDirection(new Vector2(moveVector.x, moveVector.z));
             }
             else
             {
-                playerView.Move(new Vector3());
+                // Лучше убирать тут (на след. кадре), но ещё можно добавить cleaup атрибут компоненту
+                // и тогда его будет убирать авто-клинап-система в конце кадра
+                // Разница как понимаю только в том, что в инспекторе становится видно компонент
+                e.RemoveDesiredMoveDirection();
             }
         }
 

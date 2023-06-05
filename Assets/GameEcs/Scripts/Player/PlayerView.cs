@@ -20,5 +20,20 @@ public class PlayerView : View
     {
         base.Update();
         _playerAnimator.PlayMove(_characterController.velocity.magnitude);
+        
+        // Как эту логику переместить в систему?
+        if (_linkedEntity.hasVelocity && _linkedEntity.velocity.Value == _characterController.velocity)
+        {
+            return;
+        }
+
+        if (_linkedEntity.hasVelocity &&  _characterController.velocity == Vector3.zero)
+        {
+            _linkedEntity.RemoveVelocity();
+        }
+        else if (_characterController.velocity != Vector3.zero)
+        {
+            _linkedEntity.ReplaceVelocity(_characterController.velocity);
+        }
     }
 }

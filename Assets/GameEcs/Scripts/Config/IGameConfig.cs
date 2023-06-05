@@ -6,4 +6,6 @@ public interface IGameConfig
 {
     Vector3 PlayerStartPosition { get; }
     float PlayerSpeed { get; }
+    float BlinkDistance { get; }
+    float BlinkDuration { get; }
 }
