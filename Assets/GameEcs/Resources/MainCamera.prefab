@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8866969798256522338}
   - component: {fileID: 8866969798256522337}
   - component: {fileID: 8866969798256522342}
-  - component: {fileID: 9060134070356492068}
+  - component: {fileID: 7065279675672749588}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -136,7 +136,7 @@ MonoBehaviour:
   _turnSpeed: 4
   _target: {fileID: 0}
   _offset: {x: 0, y: 1, z: 0}
---- !u!114 &9060134070356492068
+--- !u!114 &7065279675672749588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,8 +145,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8866969798256522349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83aeaf1751e5409fa2469fde3596abae, type: 3}
+  m_Script: {fileID: 11500000, guid: dbfe5d6131353a440a68d465f913faef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _thirdPersonCamera: {fileID: 8866969798256522342}

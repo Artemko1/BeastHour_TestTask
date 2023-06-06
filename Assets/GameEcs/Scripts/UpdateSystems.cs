@@ -1,4 +1,5 @@
-﻿using BH.Input.UserInput;
+﻿using GameEcs.Scripts.Camera;
+using GameEcs.Scripts.Player;
 
 public class UpdateSystems : Feature
 {
@@ -7,29 +8,34 @@ public class UpdateSystems : Feature
         // Input
         Add(new InputSystems(contexts));
 
-        // Update
+        // Update positions
         Add(new ApplyDesiredMoveSystem(contexts));
         Add(new DashSystem(contexts));
 
-        // View
+        // View create
         Add(new AddViewSystem(contexts));
-        //todo добавить playerInitSystem, после того как создали вью. Получаем компоненты
-        // Все компоненты с юнити будут раскиданы в компоненты ецсные
+        
+        // Init Entities from view
+        Add(new InitPlayerSystem(contexts));
+        Add(new InitCameraSystem(contexts));
 
+
+        // Process // todo переместить между Input и Update. Но сначала перевести камеру на ецс
+        // bug PlayerMoveInputIntoDesiredMoveSystem зависит от камеры. Нажо как-то пофиксить
+        Add(new PlayerMoveInputIntoDesiredMoveSystem(contexts));
+        Add(new StartDashFromInputSystem(contexts));
+
+        Add(new AnimatePlayerMoveSystem(contexts));
         
-        // Process
-        Add(new ProcessPlayerMoveInputSystem(contexts));
-        
-        Add(new StartDashSystem(contexts));
-        
-        
-        // Добавить систему, которая будет обновлять позицию камеры. После всех перемещений игрока
-        
+
+        // Update camera after all logic
+        Add(new UpdateCameraTargetPositionSystem(contexts));
+
         // Events
         Add(new GameEventSystems(contexts));
 
         // Cleanup
-        Add(new InputCleanupSystems(contexts)); // Почему не удаляются сущности всё равно?
+        Add(new InputCleanupSystems(contexts));
         Add(new GameCleanupSystems(contexts));
     }
 }
@@ -40,10 +46,9 @@ public class InputSystems : Feature
     {
         // Update time
         Add(new UpdateTimeSystem(contexts));
-        
+
         // Read
         Add(new ReadWasdInputSystem(contexts));
         Add(new ReadLmbInputSystem(contexts));
-        
     }
 }

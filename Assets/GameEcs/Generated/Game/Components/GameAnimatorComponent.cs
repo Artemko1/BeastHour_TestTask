@@ -8,25 +8,25 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    public VelocityComponent velocity { get { return (VelocityComponent)GetComponent(GameComponentsLookup.Velocity); } }
-    public bool hasVelocity { get { return HasComponent(GameComponentsLookup.Velocity); } }
+    public AnimatorComponent animator { get { return (AnimatorComponent)GetComponent(GameComponentsLookup.Animator); } }
+    public bool hasAnimator { get { return HasComponent(GameComponentsLookup.Animator); } }
 
-    public void AddVelocity(UnityEngine.Vector3 newValue) {
-        var index = GameComponentsLookup.Velocity;
-        var component = (VelocityComponent)CreateComponent(index, typeof(VelocityComponent));
+    public void AddAnimator(UnityEngine.Animator newValue) {
+        var index = GameComponentsLookup.Animator;
+        var component = (AnimatorComponent)CreateComponent(index, typeof(AnimatorComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceVelocity(UnityEngine.Vector3 newValue) {
-        var index = GameComponentsLookup.Velocity;
-        var component = (VelocityComponent)CreateComponent(index, typeof(VelocityComponent));
+    public void ReplaceAnimator(UnityEngine.Animator newValue) {
+        var index = GameComponentsLookup.Animator;
+        var component = (AnimatorComponent)CreateComponent(index, typeof(AnimatorComponent));
         component.Value = newValue;
         ReplaceComponent(index, component);
     }
 
-    public void RemoveVelocity() {
-        RemoveComponent(GameComponentsLookup.Velocity);
+    public void RemoveAnimator() {
+        RemoveComponent(GameComponentsLookup.Animator);
     }
 }
 
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherVelocity;
+    static Entitas.IMatcher<GameEntity> _matcherAnimator;
 
-    public static Entitas.IMatcher<GameEntity> Velocity {
+    public static Entitas.IMatcher<GameEntity> Animator {
         get {
-            if (_matcherVelocity == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Velocity);
+            if (_matcherAnimator == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Animator);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherVelocity = matcher;
+                _matcherAnimator = matcher;
             }
 
-            return _matcherVelocity;
+            return _matcherAnimator;
         }
     }
 }

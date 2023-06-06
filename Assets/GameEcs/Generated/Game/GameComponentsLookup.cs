@@ -8,28 +8,34 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int AnyLocalPlayerListener = 0;
-    public const int Asset = 1;
-    public const int Camera = 2;
-    public const int Dashing = 3;
-    public const int DashingCooldown = 4;
-    public const int DashStart = 5;
-    public const int DesiredMoveDirection = 6;
-    public const int Destroyed = 7;
-    public const int DestroyedListener = 8;
-    public const int LocalPlayer = 9;
-    public const int Player = 10;
-    public const int Position = 11;
-    public const int PositionListener = 12;
-    public const int Velocity = 13;
-    public const int View = 14;
+    public const int Animator = 0;
+    public const int AnyLocalPlayerListener = 1;
+    public const int Asset = 2;
+    public const int Camera = 3;
+    public const int CameraTarget = 4;
+    public const int CharacterController = 5;
+    public const int Dashing = 6;
+    public const int DashingCooldown = 7;
+    public const int DashStart = 8;
+    public const int DesiredMoveDirection = 9;
+    public const int Destroyed = 10;
+    public const int DestroyedListener = 11;
+    public const int LocalPlayer = 12;
+    public const int Player = 13;
+    public const int Position = 14;
+    public const int PositionListener = 15;
+    public const int ThirdPersonCamera = 16;
+    public const int View = 17;
 
-    public const int TotalComponents = 15;
+    public const int TotalComponents = 18;
 
     public static readonly string[] componentNames = {
+        "Animator",
         "AnyLocalPlayerListener",
         "Asset",
         "Camera",
+        "CameraTarget",
+        "CharacterController",
         "Dashing",
         "DashingCooldown",
         "DashStart",
@@ -40,14 +46,17 @@ public static class GameComponentsLookup {
         "Player",
         "Position",
         "PositionListener",
-        "Velocity",
+        "ThirdPersonCamera",
         "View"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(AnimatorComponent),
         typeof(AnyLocalPlayerListenerComponent),
         typeof(AssetComponent),
         typeof(CameraComponent),
+        typeof(CameraTargetComponent),
+        typeof(CharacterControllerComponent),
         typeof(DashingComponent),
         typeof(DashingCooldownComponent),
         typeof(DashStartComponent),
@@ -58,7 +67,7 @@ public static class GameComponentsLookup {
         typeof(PlayerComponent),
         typeof(PositionComponent),
         typeof(PositionListenerComponent),
-        typeof(VelocityComponent),
+        typeof(ThirdPersonCameraComponent),
         typeof(ViewComponent)
     };
 }

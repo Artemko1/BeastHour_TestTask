@@ -9,24 +9,25 @@ public sealed class DashSystem : IExecuteSystem
     public DashSystem(Contexts contexts)
     {
         _contexts = contexts;
-        _group = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Dashing, GameMatcher.Position)); //вместо pos будет charContr
+        _group = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Dashing, GameMatcher.CharacterController));
     }
 
     public void Execute()
     {
         foreach (var e in _group.GetEntities())
         {
-            var playerView = (PlayerView)e.view.Value;
-
-            if (!playerView)
-            {
-                continue;
-            }
-
             var deltaTime = _contexts.input.deltaTime.value;
             DashingComponent dashing = e.dashing;
-            Vector3 deltaPos = dashing.Direction * deltaTime * _contexts.config.gameConfig.value.DashMoveSpeed;
-            playerView.Move(deltaPos); // todo будет characterController.Value.Move
+            Vector3 deltaPos = deltaTime * _contexts.config.gameConfig.value.DashMoveSpeed * dashing.Direction;
+            
+            CharacterController controller = e.characterController.Value;
+            controller.Move(deltaPos);
+            e.ReplacePosition(controller.transform.position);
+            if (deltaPos.sqrMagnitude > Mathf.Epsilon)
+            {
+                controller.transform.forward = deltaPos;
+            }
+            
             dashing.RemainingTime -= deltaTime;
             if (dashing.RemainingTime <= 0)
             {

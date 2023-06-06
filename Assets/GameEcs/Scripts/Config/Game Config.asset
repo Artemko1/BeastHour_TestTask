@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PlayerStartPosition>k__BackingField: {x: 0, y: 0, z: 0}
   <PlayerSpeed>k__BackingField: 5
-  <DashDistance>k__BackingField: 4
-  <DashDuration>k__BackingField: 0.2
-  <DashMoveSpeed>k__BackingField: 5
+  <DashDistance>k__BackingField: 8
+  <DashMoveSpeed>k__BackingField: 50
