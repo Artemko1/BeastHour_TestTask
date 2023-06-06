@@ -21,14 +21,15 @@ public class UpdateSystems : Feature
 
 
         // Process // todo переместить между Input и Update. Но сначала перевести камеру на ецс
-        // bug PlayerMoveInputIntoDesiredMoveSystem зависит от камеры. Нажо как-то пофиксить
+        // bug PlayerMoveInputIntoDesiredMoveSystem зависит от камеры. Наlо как-то пофиксить наверно
         Add(new PlayerMoveInputIntoDesiredMoveSystem(contexts));
         Add(new StartDashFromInputSystem(contexts));
-
-        Add(new AnimatePlayerMoveSystem(contexts));
         
+        // Process for AI
+        Add(new AiRandomDashSystem(contexts));
 
-        // Update camera after all logic
+        // View update
+        Add(new AnimatePlayerMoveSystem(contexts));
         Add(new UpdateCameraTargetPositionSystem(contexts));
 
         // Events
@@ -46,6 +47,7 @@ public class InputSystems : Feature
     {
         // Update time
         Add(new UpdateTimeSystem(contexts));
+        Add(new DecreaseTimersSystem(contexts));
 
         // Read
         Add(new ReadWasdInputSystem(contexts));

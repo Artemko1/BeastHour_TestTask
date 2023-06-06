@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly DashStartComponent dashStartComponent = new DashStartComponent();
+    static readonly AiCharacterComponent aiCharacterComponent = new AiCharacterComponent();
 
-    public bool isDashStart {
-        get { return HasComponent(GameComponentsLookup.DashStart); }
+    public bool isAiCharacter {
+        get { return HasComponent(GameComponentsLookup.AiCharacter); }
         set {
-            if (value != isDashStart) {
-                var index = GameComponentsLookup.DashStart;
+            if (value != isAiCharacter) {
+                var index = GameComponentsLookup.AiCharacter;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : dashStartComponent;
+                            : aiCharacterComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherDashStart;
+    static Entitas.IMatcher<GameEntity> _matcherAiCharacter;
 
-    public static Entitas.IMatcher<GameEntity> DashStart {
+    public static Entitas.IMatcher<GameEntity> AiCharacter {
         get {
-            if (_matcherDashStart == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.DashStart);
+            if (_matcherAiCharacter == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.AiCharacter);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherDashStart = matcher;
+                _matcherAiCharacter = matcher;
             }
 
-            return _matcherDashStart;
+            return _matcherAiCharacter;
         }
     }
 }

@@ -8,28 +8,29 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int Animator = 0;
-    public const int AnyLocalPlayerListener = 1;
-    public const int Asset = 2;
-    public const int Camera = 3;
-    public const int CameraTarget = 4;
-    public const int CharacterController = 5;
-    public const int Dashing = 6;
-    public const int DashingCooldown = 7;
-    public const int DashStart = 8;
-    public const int DesiredMoveDirection = 9;
-    public const int Destroyed = 10;
-    public const int DestroyedListener = 11;
-    public const int LocalPlayer = 12;
-    public const int Player = 13;
-    public const int Position = 14;
-    public const int PositionListener = 15;
-    public const int ThirdPersonCamera = 16;
+    public const int AiCharacter = 0;
+    public const int Animator = 1;
+    public const int AnyLocalPlayerListener = 2;
+    public const int Asset = 3;
+    public const int Camera = 4;
+    public const int CameraTarget = 5;
+    public const int CharacterController = 6;
+    public const int Dashing = 7;
+    public const int DesiredMoveDirection = 8;
+    public const int Destroyed = 9;
+    public const int DestroyedListener = 10;
+    public const int LocalPlayer = 11;
+    public const int Player = 12;
+    public const int Position = 13;
+    public const int PositionListener = 14;
+    public const int ThirdPersonCamera = 15;
+    public const int Timer = 16;
     public const int View = 17;
 
     public const int TotalComponents = 18;
 
     public static readonly string[] componentNames = {
+        "AiCharacter",
         "Animator",
         "AnyLocalPlayerListener",
         "Asset",
@@ -37,8 +38,6 @@ public static class GameComponentsLookup {
         "CameraTarget",
         "CharacterController",
         "Dashing",
-        "DashingCooldown",
-        "DashStart",
         "DesiredMoveDirection",
         "Destroyed",
         "DestroyedListener",
@@ -47,10 +46,12 @@ public static class GameComponentsLookup {
         "Position",
         "PositionListener",
         "ThirdPersonCamera",
+        "Timer",
         "View"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(AiCharacterComponent),
         typeof(AnimatorComponent),
         typeof(AnyLocalPlayerListenerComponent),
         typeof(AssetComponent),
@@ -58,8 +59,6 @@ public static class GameComponentsLookup {
         typeof(CameraTargetComponent),
         typeof(CharacterControllerComponent),
         typeof(DashingComponent),
-        typeof(DashingCooldownComponent),
-        typeof(DashStartComponent),
         typeof(DesiredMoveDirectionComponent),
         typeof(DestroyedComponent),
         typeof(DestroyedListenerComponent),
@@ -68,6 +67,7 @@ public static class GameComponentsLookup {
         typeof(PositionComponent),
         typeof(PositionListenerComponent),
         typeof(ThirdPersonCameraComponent),
+        typeof(TimerComponent),
         typeof(ViewComponent)
     };
 }

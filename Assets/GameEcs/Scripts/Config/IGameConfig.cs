@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IGameConfig
 {
     Vector3 PlayerStartPosition { get; }
+    Vector3 DummyStartPosition { get; }
     float PlayerSpeed { get; }
     float DashDistance { get; }
     float DashMoveSpeed { get; }

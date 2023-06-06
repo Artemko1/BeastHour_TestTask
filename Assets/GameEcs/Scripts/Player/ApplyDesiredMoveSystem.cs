@@ -9,21 +9,30 @@ public sealed class ApplyDesiredMoveSystem : IExecuteSystem
     public ApplyDesiredMoveSystem(Contexts contexts)
     {
         _contexts = contexts;
-        _group = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.DesiredMoveDirection, GameMatcher.CharacterController));
+        _group = contexts.game.GetGroup(GameMatcher.CharacterController);
     }
 
     public void Execute()
     {
         foreach (GameEntity e in _group.GetEntities())
         {
-            var dir = e.desiredMoveDirection.Value;
+            CharacterController controller = e.characterController.Value;
+            if (!e.hasDesiredMoveDirection)
+            {
+                // Сделано, потому что controller считает velocity по разныце с последним значением
+                // И его нужно задавать каждый кадр
+                controller.Move(Vector3.zero);
+                return;
+            }
 
+            Vector2 dir = e.desiredMoveDirection.Value;
             var moveVector = new Vector3(dir.x, 0, dir.y);
+
             float speed = _contexts.config.gameConfig.value.PlayerSpeed;
             float deltaTime = _contexts.input.deltaTime.value;
 
             Vector3 motion = moveVector * speed * deltaTime;
-            CharacterController controller = e.characterController.Value;
+            
             controller.Move(motion);
             e.ReplacePosition(controller.transform.position);
 

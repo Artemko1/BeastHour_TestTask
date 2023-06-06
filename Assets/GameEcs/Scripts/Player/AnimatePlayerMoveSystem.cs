@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameEcs.Scripts.Player
 {
-    public class AnimatePlayerMoveSystem : IExecuteSystem, IInitializeSystem
+    public class AnimatePlayerMoveSystem : IExecuteSystem
     {
         private readonly int _animIDSpeed = Animator.StringToHash("Speed"); //todo переместить из системы
         
@@ -14,11 +14,6 @@ namespace GameEcs.Scripts.Player
         {
             _contexts = contexts;
             _group = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Animator, GameMatcher.CharacterController));
-        }
-
-        public void Initialize()
-        {
-            
         }
 
         public void Execute()

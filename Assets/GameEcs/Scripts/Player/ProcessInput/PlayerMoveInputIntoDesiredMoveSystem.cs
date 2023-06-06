@@ -32,7 +32,7 @@ public class PlayerMoveInputIntoDesiredMoveSystem : ReactiveSystem<InputEntity>
     private static Vector3 TransformToCameraLocalCoordinates(GameEntity camera,
         MoveInputComponent moveInputComponent)
     {
-        // bug. Надо сделать initialize систему для camera.view.value.transform
+        // Система зависит от view камеры
         Vector3 moveVector = camera.view.Value.transform.TransformDirection(moveInputComponent.Value);
         moveVector.y = 0;
         moveVector.Normalize();

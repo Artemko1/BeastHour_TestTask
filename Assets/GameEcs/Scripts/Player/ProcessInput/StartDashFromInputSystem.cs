@@ -26,10 +26,10 @@ public sealed class StartDashFromInputSystem : ReactiveSystem<InputEntity>
             return;
         }
 
-        StartBlinking(e);
+        StartDashing(e);
     }
 
-    private void StartBlinking(GameEntity e)
+    private void StartDashing(GameEntity e)
     {
         float speed = _contexts.config.gameConfig.value.DashMoveSpeed;
         float distance = _contexts.config.gameConfig.value.DashDistance;

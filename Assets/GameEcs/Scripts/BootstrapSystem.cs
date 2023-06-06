@@ -21,13 +21,14 @@ namespace BH.Player
             // Можно добавить тип сцену - бутстрап, игровая и тд.
             // Реактивная система, инициализирующая матч, должна поднянуться по загрузке игровой сцены
 
-            var playerEntity = CreatePlayer();
-            CreateCamera(playerEntity);
+            CreatePlayer();
+            CreateCamera();
+            CreateDummy();
         }
 
-        private GameEntity CreatePlayer()
+        private void CreatePlayer()
         {
-            Vector2 position = _contexts.config.gameConfig.value.PlayerStartPosition;
+            Vector3 position = _contexts.config.gameConfig.value.PlayerStartPosition;
 
             var e = _contexts.game.CreateEntity();
 
@@ -36,18 +37,28 @@ namespace BH.Player
             e.AddAsset("Player");
             e.AddPosition(position);
             e.isCameraTarget = true;
-            return e;
         }
 
-        private void CreateCamera(GameEntity playerEntity)
+        private void CreateCamera()
         {
             var e = _contexts.game.CreateEntity();
 
             e.isCamera = true;
             e.AddAsset("MainCamera");
             e.AddPosition(new Vector3());
-            // todo добавить AddCameraTarget(playerEntity)
-            // e.AddCameraTarget(playerEntity);
+        }
+
+        private void CreateDummy()
+        {
+            Vector3 position = _contexts.config.gameConfig.value.DummyStartPosition;
+
+            var e = _contexts.game.CreateEntity();
+
+            e.isPlayer = true;
+            e.AddAsset("Player");
+            e.AddPosition(position);
+            e.isAiCharacter = true;
+            e.AddTimer(3f); // Dummy timer before first dash
         }
     }
 }
