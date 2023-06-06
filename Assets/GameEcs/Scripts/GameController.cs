@@ -24,8 +24,8 @@ public class GameController : MonoBehaviour
         _updateSystems = new UpdateSystems(_contexts);
         _bootstrapSystems = new BootstrapSystems(_contexts);
 
-        _updateSystems.Initialize();
         _bootstrapSystems.Initialize();
+        _updateSystems.Initialize();
     }
 
     private void Update()

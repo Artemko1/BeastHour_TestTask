@@ -6,6 +6,7 @@ public interface IGameConfig
 {
     Vector3 PlayerStartPosition { get; }
     float PlayerSpeed { get; }
-    float BlinkDistance { get; }
-    float BlinkDuration { get; }
+    float DashDistance { get; }
+    float DashDuration { get; } // убрать
+    float DashMoveSpeed { get; }
 }

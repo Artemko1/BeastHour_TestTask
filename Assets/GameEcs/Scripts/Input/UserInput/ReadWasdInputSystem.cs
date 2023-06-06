@@ -1,35 +1,27 @@
 using Entitas;
 using UnityEngine;
 
-public sealed class ReadWasdInputSystem : IExecuteSystem, ICleanupSystem
+public sealed class ReadWasdInputSystem : IExecuteSystem, IInitializeSystem
 {
     private readonly Contexts _contexts;
-
-    private readonly IGroup<InputEntity> _moveInputs;
 
     public ReadWasdInputSystem(Contexts contexts)
     {
         _contexts = contexts;
-        _moveInputs = contexts.input.GetGroup(InputMatcher.MoveInput);
     }
-    
+
+    public void Initialize()
+    {
+        _contexts.input.SetMoveInput(new Vector2());
+    }
+
     public void Execute()
     {
         Vector2 moveAxis = InputService.MovementAxis;
 
-        if (moveAxis != Vector2.zero)
+        if (moveAxis != _contexts.input.moveInput.Value)
         {
-            var entity = _contexts.input.CreateEntity();
-            entity.AddMoveInput(moveAxis);
-            // inputContext.ReplaceMoveInput(moveAxis);
-        }
-    }
-
-    public void Cleanup()
-    {
-        foreach (var e in _moveInputs.GetEntities())
-        {
-            e.Destroy();
+            _contexts.input.ReplaceMoveInput(moveAxis);
         }
     }
 }

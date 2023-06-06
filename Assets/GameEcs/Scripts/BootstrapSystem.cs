@@ -17,6 +17,9 @@ namespace BH.Player
         public void Initialize()
         {
             SceneManager.LoadScene(SceneName);
+            // Загрузку сцены лучше сделать отдельной системой. 
+            // Можно добавить тип сцену - бутстрап, игровая и тд.
+            // Реактивная система, инициализирующая матч, должна поднянуться по загрузке игровой сцены
 
             CreatePlayer();
             CreateCamera();
@@ -24,14 +27,12 @@ namespace BH.Player
 
         private void CreatePlayer()
         {
-            // var id = _services.IdService.GetNext();
             Vector2 position = _contexts.config.gameConfig.value.PlayerStartPosition;
 
             var e = _contexts.game.CreateEntity();
 
             e.isPlayer = true;
             e.isLocalPlayer = true;
-            // e.AddId((int)id);
             e.AddAsset("Player");
             e.AddPosition(position);
         }
@@ -43,6 +44,7 @@ namespace BH.Player
             e.isCamera = true;
             e.AddAsset("MainCamera");
             e.AddPosition(new Vector3());
+            // todo добавить AddCameraTarget(playerEntity)
         }
     }
 }

@@ -10,10 +10,10 @@ public static class GameComponentsLookup {
 
     public const int AnyLocalPlayerListener = 0;
     public const int Asset = 1;
-    public const int Blinking = 2;
-    public const int BlinkingCooldown = 3;
-    public const int BlinkStart = 4;
-    public const int Camera = 5;
+    public const int Camera = 2;
+    public const int Dashing = 3;
+    public const int DashingCooldown = 4;
+    public const int DashStart = 5;
     public const int DesiredMoveDirection = 6;
     public const int Destroyed = 7;
     public const int DestroyedListener = 8;
@@ -29,10 +29,10 @@ public static class GameComponentsLookup {
     public static readonly string[] componentNames = {
         "AnyLocalPlayerListener",
         "Asset",
-        "Blinking",
-        "BlinkingCooldown",
-        "BlinkStart",
         "Camera",
+        "Dashing",
+        "DashingCooldown",
+        "DashStart",
         "DesiredMoveDirection",
         "Destroyed",
         "DestroyedListener",
@@ -47,10 +47,10 @@ public static class GameComponentsLookup {
     public static readonly System.Type[] componentTypes = {
         typeof(AnyLocalPlayerListenerComponent),
         typeof(AssetComponent),
-        typeof(BlinkingComponent),
-        typeof(BlinkingCooldownComponent),
-        typeof(BlinkStartComponent),
         typeof(CameraComponent),
+        typeof(DashingComponent),
+        typeof(DashingCooldownComponent),
+        typeof(DashStartComponent),
         typeof(DesiredMoveDirectionComponent),
         typeof(DestroyedComponent),
         typeof(DestroyedListenerComponent),

@@ -9,10 +9,22 @@ public class UpdateSystems : Feature
 
         // Update
         Add(new ApplyDesiredMoveSystem(contexts));
+        Add(new DashSystem(contexts));
 
         // View
         Add(new AddViewSystem(contexts));
+        //todo добавить playerInitSystem, после того как создали вью. Получаем компоненты
+        // Все компоненты с юнити будут раскиданы в компоненты ецсные
 
+        
+        // Process
+        Add(new ProcessPlayerMoveInputSystem(contexts));
+        
+        Add(new StartDashSystem(contexts));
+        
+        
+        // Добавить систему, которая будет обновлять позицию камеры. После всех перемещений игрока
+        
         // Events
         Add(new GameEventSystems(contexts));
 
@@ -33,8 +45,5 @@ public class InputSystems : Feature
         Add(new ReadWasdInputSystem(contexts));
         Add(new ReadLmbInputSystem(contexts));
         
-        // Process
-        Add(new ProcessPlayerMoveInputSystem(contexts));
-        Add(new ProcessLmbInputSystem(contexts));
     }
 }

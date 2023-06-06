@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly BlinkingCooldownComponent blinkingCooldownComponent = new BlinkingCooldownComponent();
+    static readonly DashingCooldownComponent dashingCooldownComponent = new DashingCooldownComponent();
 
-    public bool isBlinkingCooldown {
-        get { return HasComponent(GameComponentsLookup.BlinkingCooldown); }
+    public bool isDashingCooldown {
+        get { return HasComponent(GameComponentsLookup.DashingCooldown); }
         set {
-            if (value != isBlinkingCooldown) {
-                var index = GameComponentsLookup.BlinkingCooldown;
+            if (value != isDashingCooldown) {
+                var index = GameComponentsLookup.DashingCooldown;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : blinkingCooldownComponent;
+                            : dashingCooldownComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherBlinkingCooldown;
+    static Entitas.IMatcher<GameEntity> _matcherDashingCooldown;
 
-    public static Entitas.IMatcher<GameEntity> BlinkingCooldown {
+    public static Entitas.IMatcher<GameEntity> DashingCooldown {
         get {
-            if (_matcherBlinkingCooldown == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.BlinkingCooldown);
+            if (_matcherDashingCooldown == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.DashingCooldown);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherBlinkingCooldown = matcher;
+                _matcherDashingCooldown = matcher;
             }
 
-            return _matcherBlinkingCooldown;
+            return _matcherDashingCooldown;
         }
     }
 }

@@ -8,27 +8,27 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    public BlinkingComponent blinking { get { return (BlinkingComponent)GetComponent(GameComponentsLookup.Blinking); } }
-    public bool hasBlinking { get { return HasComponent(GameComponentsLookup.Blinking); } }
+    public DashingComponent dashing { get { return (DashingComponent)GetComponent(GameComponentsLookup.Dashing); } }
+    public bool hasDashing { get { return HasComponent(GameComponentsLookup.Dashing); } }
 
-    public void AddBlinking(float newRemainingTime, UnityEngine.Vector3 newDirection) {
-        var index = GameComponentsLookup.Blinking;
-        var component = (BlinkingComponent)CreateComponent(index, typeof(BlinkingComponent));
+    public void AddDashing(float newRemainingTime, UnityEngine.Vector3 newDirection) {
+        var index = GameComponentsLookup.Dashing;
+        var component = (DashingComponent)CreateComponent(index, typeof(DashingComponent));
         component.RemainingTime = newRemainingTime;
         component.Direction = newDirection;
         AddComponent(index, component);
     }
 
-    public void ReplaceBlinking(float newRemainingTime, UnityEngine.Vector3 newDirection) {
-        var index = GameComponentsLookup.Blinking;
-        var component = (BlinkingComponent)CreateComponent(index, typeof(BlinkingComponent));
+    public void ReplaceDashing(float newRemainingTime, UnityEngine.Vector3 newDirection) {
+        var index = GameComponentsLookup.Dashing;
+        var component = (DashingComponent)CreateComponent(index, typeof(DashingComponent));
         component.RemainingTime = newRemainingTime;
         component.Direction = newDirection;
         ReplaceComponent(index, component);
     }
 
-    public void RemoveBlinking() {
-        RemoveComponent(GameComponentsLookup.Blinking);
+    public void RemoveDashing() {
+        RemoveComponent(GameComponentsLookup.Dashing);
     }
 }
 
@@ -42,17 +42,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherBlinking;
+    static Entitas.IMatcher<GameEntity> _matcherDashing;
 
-    public static Entitas.IMatcher<GameEntity> Blinking {
+    public static Entitas.IMatcher<GameEntity> Dashing {
         get {
-            if (_matcherBlinking == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Blinking);
+            if (_matcherDashing == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Dashing);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherBlinking = matcher;
+                _matcherDashing = matcher;
             }
 
-            return _matcherBlinking;
+            return _matcherDashing;
         }
     }
 }

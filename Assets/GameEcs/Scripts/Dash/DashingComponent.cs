@@ -1,7 +1,7 @@
 using Entitas;
 using UnityEngine;
 
-    public sealed class BlinkingComponent : IComponent
+    public sealed class DashingComponent : IComponent
     {
         public float RemainingTime;
         public Vector3 Direction;

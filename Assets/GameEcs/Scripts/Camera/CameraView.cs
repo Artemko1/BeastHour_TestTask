@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CameraView : View, IPositionListener
 {
-    [SerializeField] private ThirdPersonCamera _thirdPersonCamera;
+    [SerializeField] private ThirdPersonCamera _thirdPersonCamera; // todo сделать компонентом
 
     private void Start()
     {

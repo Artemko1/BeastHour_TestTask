@@ -12,16 +12,17 @@ public class PlayerView : View
         _characterController.Move(moveVector);
         if (moveVector.sqrMagnitude > Mathf.Epsilon)
         {
-            transform.forward = moveVector;    
+            transform.forward = moveVector;
         }
     }
 
     protected override void Update()
     {
         base.Update();
-        _playerAnimator.PlayMove(_characterController.velocity.magnitude);
+        _playerAnimator.PlayMove(_characterController.velocity.magnitude); // вынести в отдельную систему для аниматора
         
         // Как эту логику переместить в систему?
+        // В системах могу напрямую использовать контроллер и брать оттуда велосити
         if (_linkedEntity.hasVelocity && _linkedEntity.velocity.Value == _characterController.velocity)
         {
             return;

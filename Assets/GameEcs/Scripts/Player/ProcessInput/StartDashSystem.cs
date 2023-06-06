@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace BH.Input.UserInput
 {
-    public class ProcessLmbInputSystem : ReactiveSystem<InputEntity>
+    public class StartDashSystem : ReactiveSystem<InputEntity>
     {
         private readonly Contexts _contexts;
 
-        public ProcessLmbInputSystem(Contexts contexts) : base(contexts.input)
+        public StartDashSystem(Contexts contexts) : base(contexts.input)
         {
             _contexts = contexts;
         }
@@ -22,22 +22,33 @@ namespace BH.Input.UserInput
         {
             var e = _contexts.game.localPlayerEntity;
 
-            var playerView = (PlayerView)e.view.Value;
+            // var playerView = (PlayerView)e.view.Value;
             if (_contexts.input.isLmbInput)
             {
+                if (e.hasDashing)
+                {
+                    Debug.Log("Already has blinking");
+                    return;
+                }
                 StartBlinking(e);
             }
         }
 
         private void StartBlinking(GameEntity e)
         {
-            float duration = _contexts.config.gameConfig.value.BlinkDuration;
+            float duration = _contexts.config.gameConfig.value.DashDuration;
             // Если на сущности есть велосити, то берём его для направления. Иначе берём прямо.
-            // if (e.)
-            // {
-            //     
-            // }
-            // e.AddBlinking(duration, );
+            Vector3 dashDirection;
+            if (e.hasVelocity)
+            {
+                dashDirection = e.velocity.Value;
+            }
+            else
+            {
+                dashDirection = Vector3.forward; // bug надо брать forward актуальный (через трансформ)
+            }
+
+            e.AddDashing(duration, dashDirection);
         }
     }
 }

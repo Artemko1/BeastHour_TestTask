@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly BlinkStartComponent blinkStartComponent = new BlinkStartComponent();
+    static readonly DashStartComponent dashStartComponent = new DashStartComponent();
 
-    public bool isBlinkStart {
-        get { return HasComponent(GameComponentsLookup.BlinkStart); }
+    public bool isDashStart {
+        get { return HasComponent(GameComponentsLookup.DashStart); }
         set {
-            if (value != isBlinkStart) {
-                var index = GameComponentsLookup.BlinkStart;
+            if (value != isDashStart) {
+                var index = GameComponentsLookup.DashStart;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : blinkStartComponent;
+                            : dashStartComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherBlinkStart;
+    static Entitas.IMatcher<GameEntity> _matcherDashStart;
 
-    public static Entitas.IMatcher<GameEntity> BlinkStart {
+    public static Entitas.IMatcher<GameEntity> DashStart {
         get {
-            if (_matcherBlinkStart == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.BlinkStart);
+            if (_matcherDashStart == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.DashStart);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherBlinkStart = matcher;
+                _matcherDashStart = matcher;
             }
 
-            return _matcherBlinkStart;
+            return _matcherDashStart;
         }
     }
 }
