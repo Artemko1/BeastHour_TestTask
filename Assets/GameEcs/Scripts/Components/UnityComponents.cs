@@ -12,3 +12,9 @@ public sealed class AnimatorComponent : IComponent
 {
     public Animator Value;
 }
+
+[Game]
+public sealed class RendererComponent : IComponent
+{
+    public Renderer Value;
+}

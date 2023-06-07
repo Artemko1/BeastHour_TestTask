@@ -19,25 +19,23 @@ public sealed class HitOnDashTriggerSystem : ReactiveSystem<GameEntity>, ICleanu
     protected override bool Filter(GameEntity entity)
     {
         GameEntity triggerEnterOther = entity.triggerEnter.Other;
-        return entity.hasDashing && triggerEnterOther.isPlayer && !triggerEnterOther.hasInvulnerableEntityLink;
+        return entity.hasDashing && triggerEnterOther.isPlayer && !triggerEnterOther.isInvulnerableEntityLinked;
     }
 
     protected override void Execute(List<GameEntity> entities)
     {
-        for (var i = 0; i < entities.Count; i++)
+        var invulDuration = _contexts.config.gameConfig.value.InvulDuration;
+        foreach (GameEntity e in entities)
         {
-            GameEntity e = entities[i];
-            GameEntity triggerEnterOther = e.triggerEnter.Other;
-            Debug.Log($"Hit other player while dashing! FrameCount {Time.frameCount}. E has localPlayer:{e.isLocalPlayer}. Other isLocalPlayer:{triggerEnterOther.isLocalPlayer}. Other isAiCharacter:{triggerEnterOther.isAiCharacter}");
+            GameEntity otherEntity = e.triggerEnter.Other;
+            Debug.Log($"Hit other player while dashing! FrameCount {Time.frameCount}. E has localPlayer:{e.isLocalPlayer}. Other isLocalPlayer:{otherEntity.isLocalPlayer}. Other isAiCharacter:{otherEntity.isAiCharacter}");
 
             GameEntity invulnerabilityEntity = _contexts.game.CreateEntity();
 
-            invulnerabilityEntity.AddOwner(triggerEnterOther);
-            // invulnerabilityEntity.isInvulnerable = true;
-            invulnerabilityEntity.AddTimer(15f);
+            invulnerabilityEntity.AddOwner(otherEntity);
+            invulnerabilityEntity.AddTimer(invulDuration);
 
-
-            triggerEnterOther.AddInvulnerableEntityLink(invulnerabilityEntity);
+            otherEntity.isInvulnerableEntityLinked = true;
         }
     }
 

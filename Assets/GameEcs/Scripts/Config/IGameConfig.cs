@@ -9,4 +9,7 @@ public interface IGameConfig
     float PlayerSpeed { get; }
     float DashDistance { get; }
     float DashMoveSpeed { get; }
+    Material[] CharacterOriginMaterials { get; }
+    Material CharacterAlteredMaterial { get; }
+    float InvulDuration { get; }
 }

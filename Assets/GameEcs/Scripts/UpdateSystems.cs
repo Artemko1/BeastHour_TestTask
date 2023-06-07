@@ -23,7 +23,8 @@ public class UpdateSystems : Feature
         Add(new AiRandomDashSystem(contexts));
 
         // Logic
-        Add(new RemoveInvulnerabilitySystem(contexts));
+        Add(new RemoveInvulnerabilityOnExpireSystem(contexts));
+        Add(new ChangeCharacterColorOnInvulnerableSystem(contexts));
         
         // Dash
         Add(new StartDashFromInputSystem(contexts));

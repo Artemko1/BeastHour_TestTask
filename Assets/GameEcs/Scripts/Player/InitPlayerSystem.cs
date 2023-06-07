@@ -18,8 +18,10 @@ public class InitPlayerSystem : ReactiveSystem<GameEntity>
         foreach (GameEntity e in entities)
         {
             // Добавляю сюда все компоненты, которые есть на монобехе и могут мне понадобиться в ecs
-            e.AddCharacterController(e.view.Value.GetComponent<CharacterController>());
-            e.AddAnimator(e.view.Value.GetComponent<Animator>());
+            View view = e.view.Value;
+            e.AddCharacterController(view.GetComponent<CharacterController>());
+            e.AddAnimator(view.GetComponent<Animator>());
+            e.AddRenderer(view.GetComponentInChildren<Renderer>());
         }
     }
 }

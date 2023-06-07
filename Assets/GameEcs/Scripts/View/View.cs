@@ -22,26 +22,17 @@ public class View : MonoBehaviour, IDestroyedListener
         }
     }
 
-    //todo посмотреть можно ли как-то добавлять компонент в AddViewSystem
-    protected virtual void OnTriggerEnter(Collider other) 
+    protected virtual void OnTriggerEnter(Collider other)
     {
         var otherView = other.GetComponentInParent<View>();
         if (otherView == this) return;
 
         var otherEntity = otherView._linkedEntity;
-        
-        // var e = _linkedEntity;
-        // Debug.Log($"TriggerEnter FrameCount {Time.frameCount}. E has localPlayer:{e.isLocalPlayer}. Other isLocalPlayer:{otherEntity.isLocalPlayer}. Other isAiCharacter:{otherEntity.isAiCharacter}");
+
         if (!_linkedEntity.hasTriggerEnter)
         {
             _linkedEntity.AddTriggerEnter(otherEntity);
-            // Debug.Log("Add trigger", this);
         }
-        else
-        {
-            // Debug.LogWarning("Already has trigger");
-        }
-        
     }
 
     public virtual void OnDestroyed(GameEntity entity) => OnDestroy();
