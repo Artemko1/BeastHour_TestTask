@@ -22,6 +22,9 @@ public class UpdateSystems : Feature
         // AI logic
         Add(new AiRandomDashSystem(contexts));
 
+        // Logic
+        Add(new RemoveInvulnerabilitySystem(contexts));
+        
         // Dash
         Add(new StartDashFromInputSystem(contexts));
         Add(new DashSystem(contexts));

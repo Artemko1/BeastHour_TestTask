@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Entitas;
+using UnityEngine;
 
 public sealed class InitViewPositionSystem : ReactiveSystem<GameEntity>
 {
@@ -18,5 +19,7 @@ public sealed class InitViewPositionSystem : ReactiveSystem<GameEntity>
         {
             e.view.Value.transform.position = e.position.Value;
         }
+
+        Physics.SyncTransforms();
     }
 }

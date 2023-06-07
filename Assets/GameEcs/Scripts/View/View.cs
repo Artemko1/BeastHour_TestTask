@@ -11,9 +11,6 @@ public class View : MonoBehaviour, IDestroyedListener
         gameObject.Link(entity);
         _linkedEntity = (GameEntity)entity;
         _linkedEntity.AddDestroyedListener(this);
-
-        Vector3 pos = _linkedEntity.position.Value;
-        transform.localPosition = pos;
     }
 
     protected virtual void Update()
@@ -28,16 +25,21 @@ public class View : MonoBehaviour, IDestroyedListener
     //todo посмотреть можно ли как-то добавлять компонент в AddViewSystem
     protected virtual void OnTriggerEnter(Collider other) 
     {
-        var otherEntity = other.GetComponentInParent<View>()._linkedEntity; 
-        // _linkedEntity.ReplaceTriggerEnter(e);
+        var otherView = other.GetComponentInParent<View>();
+        if (otherView == this) return;
+
+        var otherEntity = otherView._linkedEntity;
+        
+        // var e = _linkedEntity;
+        // Debug.Log($"TriggerEnter FrameCount {Time.frameCount}. E has localPlayer:{e.isLocalPlayer}. Other isLocalPlayer:{otherEntity.isLocalPlayer}. Other isAiCharacter:{otherEntity.isAiCharacter}");
         if (!_linkedEntity.hasTriggerEnter)
         {
             _linkedEntity.AddTriggerEnter(otherEntity);
-            Debug.Log("Add trigger", this);
+            // Debug.Log("Add trigger", this);
         }
         else
         {
-            Debug.LogWarning("Already has trigger");
+            // Debug.LogWarning("Already has trigger");
         }
         
     }

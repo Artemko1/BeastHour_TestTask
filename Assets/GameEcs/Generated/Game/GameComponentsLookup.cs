@@ -20,16 +20,18 @@ public static class GameComponentsLookup {
     public const int Destroyed = 9;
     public const int DestroyedListener = 10;
     public const int FrameLocomotion = 11;
-    public const int LocalPlayer = 12;
-    public const int Player = 13;
-    public const int Position = 14;
-    public const int PositionListener = 15;
-    public const int ThirdPersonCamera = 16;
-    public const int Timer = 17;
-    public const int TriggerEnter = 18;
-    public const int View = 19;
+    public const int InvulnerableEntityLink = 12;
+    public const int LocalPlayer = 13;
+    public const int Owner = 14;
+    public const int Player = 15;
+    public const int Position = 16;
+    public const int PositionListener = 17;
+    public const int ThirdPersonCamera = 18;
+    public const int Timer = 19;
+    public const int TriggerEnter = 20;
+    public const int View = 21;
 
-    public const int TotalComponents = 20;
+    public const int TotalComponents = 22;
 
     public static readonly string[] componentNames = {
         "AiCharacter",
@@ -44,7 +46,9 @@ public static class GameComponentsLookup {
         "Destroyed",
         "DestroyedListener",
         "FrameLocomotion",
+        "InvulnerableEntityLink",
         "LocalPlayer",
+        "Owner",
         "Player",
         "Position",
         "PositionListener",
@@ -67,7 +71,9 @@ public static class GameComponentsLookup {
         typeof(DestroyedComponent),
         typeof(DestroyedListenerComponent),
         typeof(FrameLocomotionComponent),
+        typeof(InvulnerableEntityLinkComponent),
         typeof(LocalPlayerComponent),
+        typeof(OwnerComponent),
         typeof(PlayerComponent),
         typeof(PositionComponent),
         typeof(PositionListenerComponent),

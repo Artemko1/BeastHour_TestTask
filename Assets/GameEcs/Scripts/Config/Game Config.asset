@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89df5d7d42414bce92718fe6f742690c, type: 3}
   m_Name: Game Config
   m_EditorClassIdentifier: 
-  <PlayerStartPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <PlayerStartPosition>k__BackingField: {x: 2, y: 0, z: 2}
   <DummyStartPosition>k__BackingField: {x: 3, y: 0, z: 3}
   <PlayerSpeed>k__BackingField: 5
   <DashDistance>k__BackingField: 6
