@@ -25,6 +25,7 @@ namespace GameEcs.Scripts.Player
                 CharacterController controller = e.characterController.Value;
                 
                 float speed = controller.velocity.magnitude;
+                // Debug.Log($"Magnitude is {speed}");
                 animator.SetFloat(_animIDSpeed, speed, 0.1f, deltaTime);
             }
         }

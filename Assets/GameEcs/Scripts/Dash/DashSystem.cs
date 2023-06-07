@@ -20,13 +20,10 @@ public sealed class DashSystem : IExecuteSystem
             DashingComponent dashing = e.dashing;
             Vector3 deltaPos = deltaTime * _contexts.config.gameConfig.value.DashMoveSpeed * dashing.Direction;
             
-            CharacterController controller = e.characterController.Value;
-            controller.Move(deltaPos);
-            e.ReplacePosition(controller.transform.position);
-            if (deltaPos.sqrMagnitude > Mathf.Epsilon)
-            {
-                controller.transform.forward = deltaPos;
-            }
+            Vector3 newValue = e.hasFrameLocomotion
+                ? e.frameLocomotion.Value + deltaPos
+                : deltaPos;
+            e.ReplaceFrameLocomotion(newValue);
             
             dashing.RemainingTime -= deltaTime;
             if (dashing.RemainingTime <= 0)

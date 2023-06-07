@@ -17,6 +17,7 @@ public class PlayerMoveInputIntoDesiredMoveSystem : ReactiveSystem<InputEntity>
 
     protected override bool Filter(InputEntity entity) => true;
 
+    // todo сделать execute и добавить проверку на равенство векторов, чтоб не вызывать реплейс каждый кадр
     protected override void Execute(List<InputEntity> entities)
     {
         var e = _contexts.game.localPlayerEntity;

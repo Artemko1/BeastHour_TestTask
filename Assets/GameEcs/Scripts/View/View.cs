@@ -1,11 +1,10 @@
-﻿using System;
-using Entitas;
+﻿using Entitas;
 using Entitas.Unity;
 using UnityEngine;
 
 public class View : MonoBehaviour, IDestroyedListener
 {
-    protected GameEntity _linkedEntity;
+    private GameEntity _linkedEntity;
 
     public virtual void Link(IEntity entity)
     {
@@ -24,6 +23,13 @@ public class View : MonoBehaviour, IDestroyedListener
         {
             _linkedEntity.ReplacePosition(transform.position);
         }
+    }
+
+    //todo посмотреть можно ли как-то добавлять компонент в AddViewSystem
+    protected virtual void OnTriggerEnter(Collider other) 
+    {
+        var e = other.GetComponentInParent<View>()._linkedEntity; 
+        _linkedEntity.ReplaceTriggerEnter(e);
     }
 
     public virtual void OnDestroyed(GameEntity entity) => OnDestroy();

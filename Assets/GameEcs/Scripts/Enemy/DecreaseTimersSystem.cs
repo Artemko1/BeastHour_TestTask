@@ -1,5 +1,4 @@
 using Entitas;
-using UnityEngine;
 
 public sealed class DecreaseTimersSystem : IExecuteSystem
 {
@@ -19,13 +18,11 @@ public sealed class DecreaseTimersSystem : IExecuteSystem
             float timerValue = e.timer.Value - deltaTimeValue;
             if (timerValue <= 0)
             {
-                var time = Random.Range(2f, 6f);
-                e.ReplaceTimer(time);
+                e.RemoveTimer();
             }
             else
             {
-                // e.ReplaceTimer(timerValue);
-                e.timer.Value = timerValue; // Норм ли сделано, если я хочу ловить removed ивент только 1 раз?
+                e.ReplaceTimer(timerValue);
             }
         }
     }

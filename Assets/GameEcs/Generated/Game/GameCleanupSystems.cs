@@ -9,6 +9,8 @@
 public sealed class GameCleanupSystems : Feature {
 
     public GameCleanupSystems(Contexts contexts) {
+        Add(new RemoveTriggerEnterGameSystem(contexts));
         Add(new DestroyDestroyedGameSystem(contexts));
+        Add(new RemoveFrameLocomotionGameSystem(contexts));
     }
 }

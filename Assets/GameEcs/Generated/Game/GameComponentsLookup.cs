@@ -19,15 +19,17 @@ public static class GameComponentsLookup {
     public const int DesiredMoveDirection = 8;
     public const int Destroyed = 9;
     public const int DestroyedListener = 10;
-    public const int LocalPlayer = 11;
-    public const int Player = 12;
-    public const int Position = 13;
-    public const int PositionListener = 14;
-    public const int ThirdPersonCamera = 15;
-    public const int Timer = 16;
-    public const int View = 17;
+    public const int FrameLocomotion = 11;
+    public const int LocalPlayer = 12;
+    public const int Player = 13;
+    public const int Position = 14;
+    public const int PositionListener = 15;
+    public const int ThirdPersonCamera = 16;
+    public const int Timer = 17;
+    public const int TriggerEnter = 18;
+    public const int View = 19;
 
-    public const int TotalComponents = 18;
+    public const int TotalComponents = 20;
 
     public static readonly string[] componentNames = {
         "AiCharacter",
@@ -41,12 +43,14 @@ public static class GameComponentsLookup {
         "DesiredMoveDirection",
         "Destroyed",
         "DestroyedListener",
+        "FrameLocomotion",
         "LocalPlayer",
         "Player",
         "Position",
         "PositionListener",
         "ThirdPersonCamera",
         "Timer",
+        "TriggerEnter",
         "View"
     };
 
@@ -62,12 +66,14 @@ public static class GameComponentsLookup {
         typeof(DesiredMoveDirectionComponent),
         typeof(DestroyedComponent),
         typeof(DestroyedListenerComponent),
+        typeof(FrameLocomotionComponent),
         typeof(LocalPlayerComponent),
         typeof(PlayerComponent),
         typeof(PositionComponent),
         typeof(PositionListenerComponent),
         typeof(ThirdPersonCameraComponent),
         typeof(TimerComponent),
+        typeof(TriggerEnterComponent),
         typeof(ViewComponent)
     };
 }

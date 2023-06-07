@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game Config
   m_EditorClassIdentifier: 
   <PlayerStartPosition>k__BackingField: {x: 0, y: 0, z: 0}
-  <DummyStartPosition>k__BackingField: {x: 0, y: 0, z: 3}
+  <DummyStartPosition>k__BackingField: {x: 3, y: 0, z: 3}
   <PlayerSpeed>k__BackingField: 5
   <DashDistance>k__BackingField: 6
   <DashMoveSpeed>k__BackingField: 40
