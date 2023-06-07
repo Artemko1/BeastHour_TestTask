@@ -4,7 +4,6 @@ using UnityEngine;
 
 public sealed class AiRandomDashSystem : ReactiveSystem<GameEntity>
 {
-    // Запускает дэш через случайное время
     private readonly Contexts _contexts;
 
     public AiRandomDashSystem(Contexts contexts) : base(contexts.game)
@@ -21,7 +20,7 @@ public sealed class AiRandomDashSystem : ReactiveSystem<GameEntity>
     {
         foreach (var e in entities)
         {
-            StartDashing(e);
+            // StartDashing(e);
             e.AddTimer(3f);
         }
     }
