@@ -17,6 +17,8 @@ MonoBehaviour:
   <PlayerSpeed>k__BackingField: 5
   <DashDistance>k__BackingField: 6
   <DashMoveSpeed>k__BackingField: 40
+  <InvulDuration>k__BackingField: 3
+  <AiDashEnabled>k__BackingField: 1
   <CharacterOriginMaterials>k__BackingField:
   - {fileID: 2100000, guid: 43714b68324cc2c409d534d9874f2a2b, type: 2}
   - {fileID: 2100000, guid: 766fd3ff04aab4745a764d33daac86fa, type: 2}

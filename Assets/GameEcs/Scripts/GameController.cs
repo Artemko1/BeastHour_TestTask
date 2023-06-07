@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     private FixedUpdateSystems _fixedUpdateSystems;
 
     [SerializeField] private ScriptableGameConfig _gameConfig;
+    [SerializeField] private ScriptableAiConfig _aiConfig;
 
 
     private void Awake()
@@ -16,8 +17,8 @@ public class GameController : MonoBehaviour
 
         _contexts = Contexts.sharedInstance;
 
-
         _contexts.config.SetGameConfig(_gameConfig);
+        _contexts.config.SetAiConfig(_aiConfig);
 
         _updateSystems = new UpdateSystems(_contexts);
         _fixedUpdateSystems = new FixedUpdateSystems(_contexts);

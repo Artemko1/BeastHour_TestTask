@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Match One/Game Config")]
+[CreateAssetMenu(menuName = "BH/Game Config")]
 public class ScriptableGameConfig : ScriptableObject, IGameConfig
 {
     [field: SerializeField] public Vector3 PlayerStartPosition { get; private set; }

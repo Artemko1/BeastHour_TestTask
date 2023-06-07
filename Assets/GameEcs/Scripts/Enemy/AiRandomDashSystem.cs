@@ -18,10 +18,15 @@ public sealed class AiRandomDashSystem : ReactiveSystem<GameEntity>
 
     protected override void Execute(List<GameEntity> entities)
     {
+        IAiConfig config = _contexts.config.aiConfig.value;
         foreach (var e in entities)
         {
-            // StartDashing(e);
-            e.AddTimer(3f);
+            if (config.DashEnabled)
+            {
+                StartDashing(e);    
+            }
+            
+            e.AddTimer(config.DashCooldown);
         }
     }
 
