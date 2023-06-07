@@ -11,33 +11,39 @@ public static class GameComponentsLookup {
     public const int AiCharacter = 0;
     public const int Animator = 1;
     public const int AnyLocalPlayerListener = 2;
-    public const int Asset = 3;
-    public const int Camera = 4;
-    public const int CameraTarget = 5;
-    public const int CharacterController = 6;
-    public const int Dashing = 7;
-    public const int DesiredMoveDirection = 8;
-    public const int Destroyed = 9;
-    public const int DestroyedListener = 10;
-    public const int FrameLocomotion = 11;
-    public const int InvulnerableEntityLinked = 12;
-    public const int LocalPlayer = 13;
-    public const int Owner = 14;
-    public const int Player = 15;
-    public const int Position = 16;
-    public const int PositionListener = 17;
-    public const int Renderer = 18;
-    public const int ThirdPersonCamera = 19;
-    public const int Timer = 20;
-    public const int TriggerEnter = 21;
-    public const int View = 22;
+    public const int AnyScoreListener = 3;
+    public const int Asset = 4;
+    public const int Camera = 5;
+    public const int CameraTarget = 6;
+    public const int CharacterController = 7;
+    public const int Dashing = 8;
+    public const int DesiredMoveDirection = 9;
+    public const int Destroyed = 10;
+    public const int DestroyedListener = 11;
+    public const int FrameLocomotion = 12;
+    public const int GameMode = 13;
+    public const int InvulnerableEntityLinked = 14;
+    public const int LocalPlayer = 15;
+    public const int Name = 16;
+    public const int Owner = 17;
+    public const int Player = 18;
+    public const int PlayerStateEntityLinked = 19;
+    public const int Position = 20;
+    public const int PositionListener = 21;
+    public const int Renderer = 22;
+    public const int Score = 23;
+    public const int ThirdPersonCamera = 24;
+    public const int Timer = 25;
+    public const int TriggerEnter = 26;
+    public const int View = 27;
 
-    public const int TotalComponents = 23;
+    public const int TotalComponents = 28;
 
     public static readonly string[] componentNames = {
         "AiCharacter",
         "Animator",
         "AnyLocalPlayerListener",
+        "AnyScoreListener",
         "Asset",
         "Camera",
         "CameraTarget",
@@ -47,13 +53,17 @@ public static class GameComponentsLookup {
         "Destroyed",
         "DestroyedListener",
         "FrameLocomotion",
+        "GameMode",
         "InvulnerableEntityLinked",
         "LocalPlayer",
+        "Name",
         "Owner",
         "Player",
+        "PlayerStateEntityLinked",
         "Position",
         "PositionListener",
         "Renderer",
+        "Score",
         "ThirdPersonCamera",
         "Timer",
         "TriggerEnter",
@@ -64,6 +74,7 @@ public static class GameComponentsLookup {
         typeof(AiCharacterComponent),
         typeof(AnimatorComponent),
         typeof(AnyLocalPlayerListenerComponent),
+        typeof(AnyScoreListenerComponent),
         typeof(AssetComponent),
         typeof(CameraComponent),
         typeof(CameraTargetComponent),
@@ -73,13 +84,17 @@ public static class GameComponentsLookup {
         typeof(DestroyedComponent),
         typeof(DestroyedListenerComponent),
         typeof(FrameLocomotionComponent),
+        typeof(GameModeComponent),
         typeof(InvulnerableEntityLinkedComponent),
         typeof(LocalPlayerComponent),
+        typeof(NameComponent),
         typeof(OwnerComponent),
         typeof(PlayerComponent),
+        typeof(PlayerStateEntityLinkedComponent),
         typeof(PositionComponent),
         typeof(PositionListenerComponent),
         typeof(RendererComponent),
+        typeof(ScoreComponent),
         typeof(ThirdPersonCameraComponent),
         typeof(TimerComponent),
         typeof(TriggerEnterComponent),

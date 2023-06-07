@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb3bb40cc304257b5c0a2eded286c2a, type: 3}
   m_Name: Ai Config
   m_EditorClassIdentifier: 
-  <DashEnabled>k__BackingField: 0
+  <DashEnabled>k__BackingField: 1
   <DashCooldown>k__BackingField: 2

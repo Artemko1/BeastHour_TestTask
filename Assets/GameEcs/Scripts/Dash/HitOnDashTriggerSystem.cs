@@ -28,7 +28,8 @@ public sealed class HitOnDashTriggerSystem : ReactiveSystem<GameEntity>, ICleanu
         foreach (GameEntity e in entities)
         {
             GameEntity otherEntity = e.triggerEnter.Other;
-            Debug.Log($"Hit other player while dashing! FrameCount {Time.frameCount}. E has localPlayer:{e.isLocalPlayer}. Other isLocalPlayer:{otherEntity.isLocalPlayer}. Other isAiCharacter:{otherEntity.isAiCharacter}");
+            Debug.Log(
+                $"Hit other player while dashing! FrameCount {Time.frameCount}. E has localPlayer:{e.isLocalPlayer}. Other isLocalPlayer:{otherEntity.isLocalPlayer}. Other isAiCharacter:{otherEntity.isAiCharacter}");
 
             GameEntity invulnerabilityEntity = _contexts.game.CreateEntity();
 
@@ -36,6 +37,8 @@ public sealed class HitOnDashTriggerSystem : ReactiveSystem<GameEntity>, ICleanu
             invulnerabilityEntity.AddTimer(invulDuration);
 
             otherEntity.isInvulnerableEntityLinked = true;
+
+            e.ReplaceScore(e.score.Value + 1);
         }
     }
 

@@ -12,5 +12,6 @@ public sealed class GameEventSystems : Feature {
         Add(new DestroyedEventSystem(contexts)); // priority: 0
         Add(new AnyLocalPlayerEventSystem(contexts)); // priority: 0
         Add(new PositionEventSystem(contexts)); // priority: 0
+        Add(new AnyScoreEventSystem(contexts)); // priority: 0
     }
 }

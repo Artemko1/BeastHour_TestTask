@@ -2,63 +2,75 @@ using Entitas;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace BH.Player
+
+public sealed class BootstrapSystem : IInitializeSystem
 {
-    public sealed class BootstrapSystem : IInitializeSystem
+    private const string SceneName = "GameScene";
+    private readonly Contexts _contexts;
+
+    public BootstrapSystem(Contexts contexts)
     {
-        private const string SceneName = "GameScene";
-        private readonly Contexts _contexts;
+        _contexts = contexts;
+    }
 
-        public BootstrapSystem(Contexts contexts)
-        {
-            _contexts = contexts;
-        }
+    public void Initialize()
+    {
+        SceneManager.LoadScene(SceneName);
+        // todo Загрузку сцены лучше сделать отдельной системой. 
+        // Можно добавить тип сцену - бутстрап, игровая и тд.
+        // Реактивная система, инициализирующая матч, должна поднянуться по загрузке игровой сцены
 
-        public void Initialize()
-        {
-            SceneManager.LoadScene(SceneName);
-            // todo Загрузку сцены лучше сделать отдельной системой. 
-            // Можно добавить тип сцену - бутстрап, игровая и тд.
-            // Реактивная система, инициализирующая матч, должна поднянуться по загрузке игровой сцены
+        CreatePlayer();
+        CreateCamera();
+        CreateDummy();
+        CreateUI();
+    }
 
-            CreatePlayer();
-            CreateCamera();
-            CreateDummy();
-        }
+    private void CreatePlayer()
+    {
+        Vector3 position = _contexts.config.gameConfig.value.PlayerStartPosition;
 
-        private void CreatePlayer()
-        {
-            Vector3 position = _contexts.config.gameConfig.value.PlayerStartPosition;
+        var e = CreateCharacter(position);
 
-            var e = _contexts.game.CreateEntity();
+        e.isLocalPlayer = true;
+        e.isCameraTarget = true;
+        e.AddName("Player");
+    }
 
-            e.isPlayer = true;
-            e.isLocalPlayer = true;
-            e.AddAsset("Player");
-            e.AddPosition(position);
-            e.isCameraTarget = true;
-        }
+    private void CreateDummy()
+    {
+        Vector3 position = _contexts.config.gameConfig.value.DummyStartPosition;
 
-        private void CreateCamera()
-        {
-            var e = _contexts.game.CreateEntity();
+        var e = CreateCharacter(position);
 
-            e.isCamera = true;
-            e.AddAsset("MainCamera");
-            e.AddPosition(new Vector3());
-        }
+        e.isAiCharacter = true;
+        e.AddTimer(3f); // Dummy timer before first dash
+        e.AddName("Dummy");
+    }
 
-        private void CreateDummy()
-        {
-            Vector3 position = _contexts.config.gameConfig.value.DummyStartPosition;
+    private GameEntity CreateCharacter(Vector3 position)
+    {
+        var e = _contexts.game.CreateEntity();
+        e.isPlayer = true;
+        e.AddAsset("Player");
+        e.AddPosition(position);
+        e.AddScore(0);
 
-            var e = _contexts.game.CreateEntity();
+        return e;
+    }
 
-            e.isPlayer = true;
-            e.AddAsset("Player");
-            e.AddPosition(position);
-            e.isAiCharacter = true;
-            e.AddTimer(3f); // Dummy timer before first dash
-        }
+    private void CreateCamera()
+    {
+        var e = _contexts.game.CreateEntity();
+
+        e.isCamera = true;
+        e.AddAsset("MainCamera");
+        e.AddPosition(new Vector3());
+    }
+
+    private void CreateUI()
+    {
+        var e = _contexts.game.CreateEntity();
+        e.AddAsset("Canvas");
     }
 }

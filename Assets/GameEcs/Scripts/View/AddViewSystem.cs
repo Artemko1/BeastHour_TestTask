@@ -25,10 +25,10 @@ public sealed class AddViewSystem : ReactiveSystem<GameEntity>
         }
     }
 
-    private View InstantiateView(GameEntity entity)
+    private ViewBase InstantiateView(GameEntity entity)
     {
         var prefab = Resources.Load<GameObject>(entity.asset.Value);
-        var view = Object.Instantiate(prefab, _parent).GetComponent<View>();
+        var view = Object.Instantiate(prefab, _parent).GetComponent<ViewBase>();
         view.Link(entity);
         return view;
     }

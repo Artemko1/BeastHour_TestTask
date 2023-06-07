@@ -1,24 +1,13 @@
-﻿using Entitas;
-using Entitas.Unity;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class View : MonoBehaviour, IDestroyedListener
+public class View : ViewBase
 {
-    private GameEntity _linkedEntity;
-
-    public virtual void Link(IEntity entity)
-    {
-        gameObject.Link(entity);
-        _linkedEntity = (GameEntity)entity;
-        _linkedEntity.AddDestroyedListener(this);
-    }
-
     protected virtual void Update()
     {
         // Чтобы в ecs всегда была актуальная позиция.
-        if (_linkedEntity.position.Value != transform.position)
+        if (LinkedEntity.position.Value != transform.position)
         {
-            _linkedEntity.ReplacePosition(transform.position);
+            LinkedEntity.ReplacePosition(transform.position);
         }
     }
 
@@ -27,19 +16,11 @@ public class View : MonoBehaviour, IDestroyedListener
         var otherView = other.GetComponentInParent<View>();
         if (otherView == this) return;
 
-        var otherEntity = otherView._linkedEntity;
+        var otherEntity = otherView.LinkedEntity;
 
-        if (!_linkedEntity.hasTriggerEnter)
+        if (!LinkedEntity.hasTriggerEnter)
         {
-            _linkedEntity.AddTriggerEnter(otherEntity);
+            LinkedEntity.AddTriggerEnter(otherEntity);
         }
-    }
-
-    public virtual void OnDestroyed(GameEntity entity) => OnDestroy();
-
-    protected virtual void OnDestroy()
-    {
-        gameObject.Unlink();
-        Destroy(gameObject);
     }
 }

@@ -1,6 +1,7 @@
 using Entitas;
 
+[Game]
 public sealed class ViewComponent : IComponent
 {
-    public View Value;
+    public ViewBase Value;
 }

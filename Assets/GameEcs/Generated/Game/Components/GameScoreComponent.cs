@@ -8,25 +8,25 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    public ViewComponent view { get { return (ViewComponent)GetComponent(GameComponentsLookup.View); } }
-    public bool hasView { get { return HasComponent(GameComponentsLookup.View); } }
+    public ScoreComponent score { get { return (ScoreComponent)GetComponent(GameComponentsLookup.Score); } }
+    public bool hasScore { get { return HasComponent(GameComponentsLookup.Score); } }
 
-    public void AddView(ViewBase newValue) {
-        var index = GameComponentsLookup.View;
-        var component = (ViewComponent)CreateComponent(index, typeof(ViewComponent));
+    public void AddScore(int newValue) {
+        var index = GameComponentsLookup.Score;
+        var component = (ScoreComponent)CreateComponent(index, typeof(ScoreComponent));
         component.Value = newValue;
         AddComponent(index, component);
     }
 
-    public void ReplaceView(ViewBase newValue) {
-        var index = GameComponentsLookup.View;
-        var component = (ViewComponent)CreateComponent(index, typeof(ViewComponent));
+    public void ReplaceScore(int newValue) {
+        var index = GameComponentsLookup.Score;
+        var component = (ScoreComponent)CreateComponent(index, typeof(ScoreComponent));
         component.Value = newValue;
         ReplaceComponent(index, component);
     }
 
-    public void RemoveView() {
-        RemoveComponent(GameComponentsLookup.View);
+    public void RemoveScore() {
+        RemoveComponent(GameComponentsLookup.Score);
     }
 }
 
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherView;
+    static Entitas.IMatcher<GameEntity> _matcherScore;
 
-    public static Entitas.IMatcher<GameEntity> View {
+    public static Entitas.IMatcher<GameEntity> Score {
         get {
-            if (_matcherView == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.View);
+            if (_matcherScore == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Score);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherView = matcher;
+                _matcherScore = matcher;
             }
 
-            return _matcherView;
+            return _matcherScore;
         }
     }
 }
