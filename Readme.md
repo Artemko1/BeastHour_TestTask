@@ -3,3 +3,5 @@
 Works with latency simulation. Supports both Host and Server-only.
 
 Build archive is in the project root.
+
+[ECS branch](https://github.com/Artemko1/BeastHour_TestTask/tree/Ecs) contains this project remade with Entitas ECS
